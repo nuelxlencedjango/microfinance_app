@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+
+{%load static%}
+
+{% block title_block %} User Sign Up {% endblock %}
+
+{% block css_block %}{% endblock %}
+
+
+{% block body_block %}{% endblock %}
+
+{% include 'navbar.html' %}
+
+
+
+
+
+
+
+
+<div class="container my-5">
+   
+    <div class="row">
+        <div class="p-5 m-auto rounded shadow-lg col-md-5 bg-body">
+            <h3 class="text-center text-success">{{user}},Please complete your form</h3>
+                <form action="{% url 'account:customer-detail' %}" method="POST" enctype="multipart/form-data">
+                {% if error %}
+                <div class="my-2">
+                    <div class="row">
+                        <div class="m-auto col">
+                            <div class="text-center alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% csrf_token %}
+
+                
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.address|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Full Address</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.nearest_bustop|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Nearest Bus-stop</label>
+                </div>
+                  
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.city|attr:'required:true' class="form-control" %}
+                    <label class="form-label">City</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.phone|attr:'required:true'  class="form-control" %}
+                    <label class="form-label">Phone</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.business|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Business Type</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.profile_img|attr:'required:true' class="form-control" %}
+                    <label class="form-label"></label>
+                </div>
+
+                <div class="mb-4 form-outline">
+
+                    {% render_field form.location|attr:'required:true' class="form-control" %}
+                    <label class="form-label">State</label>
+                </div>
+             
+                {% if form.errors %}
+
+                {% for field in form %}
+                       {% for error in field.errors %}
+                              <div class="alert alert-danger">
+                                   <strong>{{ error|escape }}</strong>
+                              </div>
+                       {% endfor %}
+                {% endfor %}
+                
+          {% endif %}
+                 
+                <!-- 2 column grid layout for inline styling -->
+                <div class="mb-4 row ">
+                    <div class="col">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" checked />
+                            <label class="form-check-label"> Remember me </label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <!-- Simple link -->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Submit</button>
+
+                <!-- Register buttons -->
+                <div class="text-center">
+                    <p>Are you already a member? <a href="/account/login-customer">Sign in</a></p>
+                    <p>or sign up with:</p>
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-google"></i>
+                    </button>
+
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+
+                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                        <i class="fab fa-github"></i>
+                    </button>
+                </div>
+         
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% include "footer.html" %}
+
+{% endblock %}

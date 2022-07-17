@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #bdy{
+            margin:20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<a href="/static/images/img.jpeg" download>download images</a> <br>
+
+<a href="mailto:nuel4xelence@gmail.com">email us</a>
+<a href="#bdy">body image</a>
+<div>
+    <h1 id="hed">heading 1</h1>
+    <p>how are you?</p>
+    <p>good morning   <span>hello</span></p>
+    <span>hello</span>
+</div>
+
+<div></div>
+
+<div></div>
+
+<img src="/static/images/loan.jpg" alt="">
+ <style>
+    img{
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
+ </style>
+
+<h1 id="bdy">body</h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam velit odit magni adipisci dignissimos provident animi suscipit, ipsum omnis praesentium eaque natus illo molestiae! Totam sapiente, ipsam ex illo laboriosam reiciendis unde explicabo eos delectus velit nobis? Impedit iure iusto perspiciatis fuga, voluptatibus mollitia amet veritatis maiores soluta cupiditate, labore accusantium quos iste enim quae totam rerum, ullam quam corrupti ea. Quaerat itaque optio eaque fugit impedit dolor neque consequatur, nihil, laboriosam odio nostrum quisquam. Repudiandae repellendus tempora autem reprehenderit asperiores cumque atque odio corporis, temporibus delectus earum blanditiis impedit accusamus a maxime provident ex eius, doloremque deserunt eveniet? Adipisci perspiciatis eligendi nam, vitae nobis fugit magni, minima maxime non dignissimos cumque asperiores, quidem aperiam ex aut iusto laudantium facere ipsa dolore ratione corrupti amet eum sapiente. Ipsum suscipit unde beatae eius obcaecati, id excepturi necessitatibus voluptatibus inventore magnam! Autem quae consequuntur, illo voluptas laboriosam ab hic? Cum veniam aut modi provident laudantium nostrum? Deleniti est ratione non quibusdam quasi eos tempore, vel reprehenderit laborum atque, tenetur sequi? Mollitia ducimus id incidunt necessitatibus laboriosam quaerat cupiditate reprehenderit. Ducimus totam ea veniam esse animi voluptatibus laboriosam similique voluptates soluta fugit quas enim asperiores repellat aut non consequatur minima quos, iure dicta!</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, nihil vel assumenda nobis nulla obcaecati provident cumque dicta enim laborum officiis fugit magni corporis nesciunt beatae ad. Iste, temporibus ex!</p>
+{% for item in tran %}
+<h3 style="color:green">#{{item.get_total_item_price}}</h3>
+<h1>{{item.payment}}</h1>
+{% endfor %}
+ 
+<a href="#hed">see it up</a>
+</body>
+</html>
+
