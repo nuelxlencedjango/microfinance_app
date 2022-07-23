@@ -32,14 +32,14 @@ class LoanTransactionForm(forms.ModelForm):
 class CustomerBankForm(ModelForm):
     class Meta:
         model = CustomerBank
-        fields =('bank_name', 'account_no','nin','bvn','card_no','next_of_kin' )
+        fields =('bank_name', 'account_no','next_of_kin' )
         Widget ={
              'bank_name':forms.TextInput(attrs={'class':'form-control'}),
             'account_no':forms.TextInput( attrs={'class':'form-control'}),
 
-            'nin':forms.TextInput(attrs={'class':'form-control'}),
-            'bvn':forms.TextInput(attrs={'class':'form-control'}),
-            'card_no':forms.TextInput(attrs={'class':'form-control'}),
+           # 'nin':forms.TextInput(attrs={'class':'form-control'}),
+           # 'bvn':forms.TextInput(attrs={'class':'form-control'}),
+           # 'card_no':forms.TextInput(attrs={'class':'form-control'}),
             'next_of_kin':forms.TextInput(attrs={'class':'form-control'}),
            
         }

@@ -38,11 +38,11 @@ class CustomerInfo(models.Model):
 
     address = models.CharField(max_length=50,null=True)
     nearest_bustop = models.CharField(max_length=50,null=True)
-    city = models.CharField(max_length=50,null=True)
+    location =  models.ForeignKey(Location, on_delete=models.CASCADE,null=True,blank=True)
     business = models.CharField(max_length=50,null=True)
     profile_img = CloudinaryField(blank=True,null=True)
     phone = models.CharField(max_length=11,null=True,unique=True) 
-    location = models.ForeignKey(State, on_delete=models.CASCADE,null=True,blank=True)
+    state = models.ForeignKey(State, on_delete=models.CASCADE,null=True,blank=True)
     dateRegistered =models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

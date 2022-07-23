@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(State)
 
 admin.site.register(CustomerInfo)
+admin.site.register(Location)

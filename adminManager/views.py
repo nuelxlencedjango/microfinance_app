@@ -206,3 +206,14 @@ def rejected_loan(request):
 def transaction_loan(request):
     transactions = loanTransaction.objects.all()
     return render(request, 'admin/transaction.html', context={'transactions': transactions})
+
+
+@staff_member_required(login_url='/manager/admin-login')
+def detailedCustomerInfo(self,id):
+    pass
+
+
+
+@staff_member_required(login_url='/manager/admin-login')
+def searchLocation(self,id):
+    pass

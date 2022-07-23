@@ -17,17 +17,24 @@ class SignUpForm(UserCreationForm):
 
 
 
+
+
+ 
+
+
+
+
 class CustomerInfoForm(ModelForm):
     class Meta:
         model = CustomerInfo
-        fields =('address','nearest_bustop','city','business','profile_img','phone','location') 
+        fields =('address','nearest_bustop','business','profile_img','phone','state') 
         Widget ={
              'phone':forms.TextInput(attrs={'class':'form-control'}),
             'profile_img':forms.TextInput( attrs={'class':'form-control'}),
 
             'address':forms.TextInput(attrs={'class':'form-control'}),
             'nearest_bustop':forms.TextInput(attrs={'class':'form-control'}),
-            'city':forms.NumberInput(attrs={'class':'form-control'}),
+            #'location':forms.NumberInput(attrs={'class':'form-control'}),
             'business':forms.TextInput(attrs={'class':'form-control'}),
            
         }
@@ -54,7 +61,7 @@ class UserUpdatePasswordForm(forms.ModelForm):
 
   class Meta:
     model = User
-    fields =('password',)
+    fields =('password','username')
 
 
 

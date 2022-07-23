@@ -57,8 +57,8 @@
                   
                 <div class="mb-4 form-outline">
 
-                    {% render_field form.city|attr:'required:true' class="form-control" %}
-                    <label class="form-label">City</label>
+                    {% render_field form.location|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Location</label>
                 </div>
                 <div class="mb-4 form-outline">
 
@@ -78,7 +78,7 @@
 
                 <div class="mb-4 form-outline">
 
-                    {% render_field form.location|attr:'required:true' class="form-control" %}
+                    {% render_field form.state|attr:'required:true' class="form-control" %}
                     <label class="form-label">State</label>
                 </div>
              
