@@ -1,4 +1,3 @@
-web: bankloan.wsgi
-
+web: gunicorn bankloan.wsgi
 
 
