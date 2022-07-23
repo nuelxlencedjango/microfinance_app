@@ -17,13 +17,6 @@ class SignUpForm(UserCreationForm):
 
 
 
-
-
- 
-
-
-
-
 class CustomerInfoForm(ModelForm):
     class Meta:
         model = CustomerInfo
@@ -46,6 +39,22 @@ class CustomerInfoForm(ModelForm):
 
 
 
+class UserUpdateForm(forms.ModelForm):
+
+  #username = forms.CharField(max_length=30, required=True, label='username',widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+  #email = forms.EmailField(max_length=100,required=True,label='email', widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+
+  class Meta:
+
+    model = User
+    fields =('username' ,'email')
+
+
+class UserUpdatePasswordForm(forms.ModelForm):
+
+  class Meta:
+    model = User
+    fields =('password',)
 
 
 

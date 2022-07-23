@@ -29,15 +29,15 @@
             <thead class="bg-dark ">
                 <tr class="text-dark ">
                     <th scope="col">SL</th>
-                    <th scope="col">Loan ID</th>
-                    <th scope="col">User ID</th>
+              
                     <th scope="col">Username</th>
                     <th scope="col">Status</th>
                     <th scope="col">Category</th>
                     <th scope="col">Request Amount</th>
                     <th scope="col">Request Date</th>
-                    <th scope="col">Year</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Date Approved</th>
+                    <th scope="col">Payment</th>
+                 
 
 
                 </tr>
@@ -47,8 +47,8 @@
 
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td>{{loan.id}}</td>
-                    <td>{{loan.customer.id}}</td>
+                  
+                 
                     <td>{{loan}}</td>
                     <td>
                         <button type="button" class="px-3 text-white btn btn-info btn-sm">
@@ -60,12 +60,18 @@
                     <td>{{loan.category}}</td>
                     <td># {{loan.amount}} </td>
                     <td>{{loan.request_date}}</td>
-                    <td>{{loan.year}}</td>
-                    <td>{{user.email}}</td>
+
+                    {% for d in get_info %}
+                    <td>{{d.date_approved}}</td>
+                    <td>{{ d.payment }}</td>
+                    {% endfor %}
+                   
+                  
 
 
 
                 </tr>
+               
                 {% endfor %}
 
             </tbody>

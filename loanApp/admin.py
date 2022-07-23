@@ -6,5 +6,6 @@ admin.site.register(loanCategory)
 admin.site.register(loanRequest)
 admin.site.register(CustomerLoan)
 admin.site.register(loanTransaction)
-admin.site.register(Repayment)
+
+admin.site.register(Bill)
 

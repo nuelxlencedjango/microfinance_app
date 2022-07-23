@@ -1,7 +1,11 @@
 from operator import truediv
+from pyexpat.errors import messages
 from django.db import models
 from django.contrib.auth.models import User
 from account.models import *
+from django.db.models import Sum
+from datetime import datetime, timedelta
+
 #from utils import create_new_ref_number
 import random
 import uuid
@@ -49,30 +53,81 @@ class loanRequest(models.Model):
     amount = models.PositiveIntegerField(default=1000)
     days = models.PositiveIntegerField(default=1)
 
+    total_payment =models.PositiveIntegerField(default=0)
+    complete_payment  = models.BooleanField(default=False)
+
     def __str__(self):
         return self.customer.username
 
 
-    def interestRate(self):
-        interest = (self.amount*10)/100
-        totalAmount = interest + self.amount
-        return totalAmount
-
-
-               
 
 
 class CustomerLoan(models.Model):
-    customer = models.ForeignKey(User,null=True,  on_delete=models.CASCADE, related_name='loan_user')
+    customer = models.ForeignKey(User,null=True,  on_delete=models.SET_NULL, related_name='loan_user')
     total_loan = models.PositiveIntegerField(default=0)
     payable_loan = models.PositiveIntegerField(default=0)
     date_approved =  models.DateTimeField(auto_now=True)
+    bal = models.PositiveIntegerField(default=0)
+    payment = models.CharField(max_length=20, default='Not paid yet')
 
-   #def get_final_amount(self):
-      #return (self.get_total_price() + self.get_vat())
+    mydate = models.DateTimeField(editable=False,null=True)
+
 
     def __str__(self):
         return self.customer.username
+
+
+    def save(self):
+        from datetime import datetime, timedelta
+        due_date = timedelta(days=1)
+
+        # only add 30 days if it's the first time the model is saved
+        if not self.id:
+            self.mydate = datetime.now() + due_date
+            super(CustomerLoan, self).save()    
+
+    
+    def get_date(self):
+        totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
+        Sum('payable_loan'))['payable_loan__sum']
+
+        totalPaid = loanTransaction.objects.filter(customer=self.customer).aggregate(Sum('payment'))[
+        'payment__sum']
+        
+        if self.mydate ==  datetime.now():
+            if totalPayable > totalPaid:
+                new_bal =totalPayable - totalPaid
+
+                new_bal =totalPayable + (new_bal *10) / 100
+                mydate = datetime.now() + timedelta(days=1)
+
+                CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal)) 
+
+        else:
+           
+            mydate = datetime.now() + timedelta(days=7)
+           
+        return 'Please on or before {} '.format(mydate)
+        
+
+
+
+class MyModel(models.Model):
+    mydate = models.DateTimeField(editable=False) # editable=False to hide in admin
+
+    def save(self):
+       from datetime import datetime, timedelta
+       d = timedelta(days=30)
+
+    # only add 30 days if it's the first time the model is saved
+       if not self.id:
+        self.mydate = datetime.now() + d
+        super(MyModel, self).save()  
+
+
+
+
+
 
     
 
@@ -90,33 +145,37 @@ class loanTransaction(models.Model):
     payment_date = models.DateField(auto_now_add=True)
     balance =models.PositiveIntegerField(default=0)
 
-
-  
-   
-
-    def __str__(self):
-        return self.customer.first_name
-
+    total_payment =models.PositiveIntegerField(default=0)
      
 
-   
+    def __str__(self):
+        return self.customer.username
+
+
+    class Meta:
+      verbose_name_plural='loanTransaction'
+       
+    
+       
+
+
+
+
+
+
+
+def get_deadline():
+
+    return datetime.today() + timedelta(days=30)
+
+class Bill(models.Model):
+    name = models.CharField(max_length=50)
+    customer = models.ForeignKey(User, related_name='bills',null=True, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.today)
+    deadline = models.DateField(default=get_deadline)  
+
+
 
       
 
-    #class Transaction(models.Model):
-       # Referrence_Number = models.Charfield( max_length = 10,blank=True,editable=False,unique=True,default=create_new_ref_number )
-
-    #def create_new_ref_number():
-              #  not_unique = True
-               # while not_unique:
-#unique_ref = random.randint(1000000000, 9999999999)
-                  #  if not Transaction.objects.filter(Referrence_Number=unique_ref):
-                   #     not_unique = False
-               # return str(unique_ref)
-  
-
-class Repayment(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='loan_repayment')
-  
-    initialAmount = models.ForeignKey(CustomerLoan, on_delete=models.CASCADE, null=True)   
-    payment = models.PositiveIntegerField(default=0)   
+   

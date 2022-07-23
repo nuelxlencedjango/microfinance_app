@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block body_block %}
+
+
+{% include 'navbar.html' %}
+
+
+
+<div class="container my-5">
+
+
+
+    <div class="row">
+        <div class="p-5 m-auto my-5 rounded shadow-lg col-md-6 bg-body">
+            <h3 class="text-center text-success">Update Your Information </h3>
+            <form method="POST" class="my-5" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="mb-4 row">
+                    <div class="col">
+                        <div class="form-outline">
+                            {% render_field form.username|attr:'required:true' type="text" class="form-control" %}
+                            <label class="form-label" for="form6Example1">Username</label>
+                        </div>
+                    </div>
+                 
+                </div>
+
+           
+
+
+                <!-- Email input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form.email|attr:'required:true' type="email" class="form-control" %}
+
+                    <label class="form-label">Email</label>
+                </div>
+
+                <!-- Image Field  Input-->
+                <div class="mb-4 form-outline">
+                    {% render_field form2.profile_img type="file" class="form-control" %}
+                    <!-- <input  class="form-control" id="customFile" /> -->
+                </div>
+
+
+                <!-- Number input -->
+                <div class="mb-4 form-outline">
+                    {% render_field form2.phone|attr:'required:true' type="number" class="form-control" %}
+
+                    <label class="form-label">Phone</label>
+                </div>
+
+            
+
+                <div class="mb-4 form-outline">
+
+                    {% render_field form2.address|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Full Address</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form2.nearest_bustop|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Nearest Bus-stop</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form2.business|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Business Type</label>
+                </div>
+                  
+                <div class="mb-4 form-outline">
+
+                    {% render_field form2.city|attr:'required:true' class="form-control" %}
+                    <label class="form-label">Location</label>
+                </div>
+                <div class="mb-4 form-outline">
+
+                    {% render_field form2.location|attr:'required:true' class="form-control" %}
+                    <label class="form-label">State</label>
+                </div>
+             
+               
+             
+
+              
+      
+
+               
+
+
+                {% if form.errors %}
+                {% for field in form %}
+                       {% for error in field.errors %}
+                              <div class="alert alert-danger">
+                                   <strong>{{ error|escape }}</strong>
+                              </div>
+                       {% endfor %}
+                {% endfor %}
+          {% endif %}
+
+                <!-- Submit button -->
+                <button type="submit" class="mb-4 btn btn-primary btn-block">Update Account</button>
+            </form>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{% include 'footer.html' %}
+{% endblock %}

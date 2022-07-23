@@ -18,6 +18,8 @@ urlpatterns =[
     path('user_dashboard/', views.UserDashboard, name='user_dashboard'),
 
     path('user-bank/', views.customerBank, name='user-bank'),
+    path('edit-bank/', views.edit_bank, name='edit-bank'),
+ 
 ]
 
 

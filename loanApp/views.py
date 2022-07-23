@@ -5,52 +5,83 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from account.models import *
-from .forms import CustomerBankForm, LoanRequestForm, LoanTransactionForm
+from .forms import CustomerBankForm, LoanRequestForm, LoanTransactionForm, UpdateCustomerBankForm
 from .models import *
 from django.shortcuts import redirect
 from account .forms import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 
+import datetime
+from datetime import datetime, timedelta
+from django.urls import reverse
 from django.db.models import Sum
 # Create your views here.
 
 
 # @login_required(login_url='/account/login-customer')
 def home(request):
+    present = datetime.now()+timedelta(days=30)
+    today = datetime.now()
 
-    return render(request, 'home.html', context={})
+    if request.user.is_authenticated:
+        abb = CustomerLoan.objects.filter(customer=request.user)
+     
+        return render(request, 'home.html', context={'present':present,'today':today,'abb':abb})
+    return render(request, 'home.html', context={'present':present,'today':today})
 
 
 
 @login_required(login_url='/account/login-customer')
 def LoanRequest(request):
-    #use try here very important:
-    totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
-    Sum('payable_loan'))['payable_loan__sum']
-    totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
-        'payment__sum']
-    if totalPayable > totalPaid:
-        bal = totalPayable - totalPaid  
 
-        messages.warning(request, 'Please pay up your outstanding balance before you can request for another loan')
+    if CustomerLoan.objects.filter(customer=request.user).exists():
+        if loanTransaction.objects.filter(customer = request.user).exists():
+            #use try here very important:
+            totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
+            Sum('payable_loan'))['payable_loan__sum']
+            totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
+            'payment__sum']
+
+            if totalPayable > totalPaid:
+                messages.warning(request, 'Please pay up your outstanding balance before you can request for another loan')
+                return redirect('loanApp:user_dashboard') 
+            
+            form = LoanRequestForm()
+            if request.method == 'POST':
+                form = LoanRequestForm(request.POST)
+                if form.is_valid():
+                    loan_obj = form.save(commit=False)
+                    loan_obj.customer = request.user
+                    loan_obj.save()
+
+                    messages.warning(request, 'Request recieved.We will get back to you soon')
+                    return redirect('/')
+            
+            return render(request, 'loanapp/loanrequest.html', context={'form': form})  
+
+
+        messages.warning(request, 'Please start making payment so you can request for another')
         return redirect('loanApp:user_dashboard') 
+            
     
     
     elif CustomerInfo.objects.filter(user=request.user).exists() and CustomerBank.objects.filter(user=request.user):
 
         form = LoanRequestForm()
         
-
         if request.method == 'POST':
             form = LoanRequestForm(request.POST)
             if form.is_valid():
                 loan_obj = form.save(commit=False)
                 loan_obj.customer = request.user
                 loan_obj.save()
+
+                messages.warning(request, 'Request recieved.We will get back to you soon')
                 return redirect('/')
 
         return render(request, 'loanapp/loanrequest.html', context={'form': form})
+
 
     elif  CustomerInfo.objects.filter(user=request.user).exists():
        
@@ -80,11 +111,22 @@ def LoanPayment(request):
     if request.method == 'POST':
         form = LoanTransactionForm(request.POST)
         if form.is_valid():
+            #amount=int(request.POST.get('payment'))
             payment = form.save(commit=False)
             payment.customer = request.user
-            payment.save()
+            payment.save() 
 
-            messages.warning(request,'f{payment.amount} acknowledged')
+
+            totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
+                Sum('payable_loan'))['payable_loan__sum']
+
+            totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
+            'payment__sum']
+
+            if totalPayable == totalPaid:
+                CustomerLoan.objects.filter(customer=request.user).update(payment="Fully paid")
+                
+            messages.warning(request,'payment acknowledged ')
             return redirect('/')
 
         messages.warning(request,'Payment not successful')
@@ -99,13 +141,6 @@ def UserTransaction(request):
     if loanTransaction.objects.filter(customer=request.user).exists():
 
         transactions = loanTransaction.objects.filter(customer=request.user)
-        #totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
-        #Sum('payable_loan'))['payable_loan__sum']
-        #totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
-        #'payment__sum']
-        #bal = totalPayable - totalPaid
-
-        #balance=transactions.transaction_customer.loan_user.payable_loan - transactions.amount
         return render(request, 'loanapp/user_transaction.html', context={'transactions': transactions})#,"bal":bal})
 
     messages.warning(request,'You dont have any transaction yet')
@@ -116,8 +151,11 @@ def UserTransaction(request):
 @login_required(login_url='/account/login-customer')
 def UserLoanHistory(request):
     loans = loanRequest.objects.filter(customer=request.user)
+    get_info = CustomerLoan.objects.filter(customer=request.user)
+
+    context={'loans': loans,'get_info':get_info}
     
-    return render(request, 'loanApp/user_loan_history.html', context={'loans': loans})
+    return render(request, 'loanApp/user_loan_history.html', context)
 
 
 
@@ -126,6 +164,7 @@ def UserLoanHistory(request):
 @login_required(login_url='/account/login-customer')
 def UserDashboard(request):
     requestLoan = loanRequest.objects.filter(customer=request.user).count()
+    
     #requestLoan = loanRequest.objects.filter(customer=request.user.customer_info.user).count()
     approved = loanRequest.objects.filter(customer=request.user,status='approved').count()
     rejected = loanRequest.objects.filter(customer=request.user,status='rejected').count()
@@ -138,8 +177,8 @@ def UserDashboard(request):
         
     totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
         'payment__sum']
-    
 
+     
     dict = {
         'request': requestLoan,
         'approved': approved,
@@ -147,6 +186,8 @@ def UserDashboard(request):
         'totalLoan': totalLoan,
         'totalPayable': totalPayable,
         'totalPaid': totalPaid,
+        #'newLoan': newLoan
+       
 
     }
 
@@ -191,6 +232,29 @@ def customerBank(request):
 
 
   
+
+
+
+
+@login_required(login_url='/account/login-customer')
+def edit_bank(request):
+    form = UpdateCustomerBankForm(instance=request.user.customer_bank)
+    if request.method == 'POST':
+
+        form =UpdateCustomerBankForm(request.POST,  instance = request.user.customer_bank)
+        if form.is_valid():
+            form.save()
+            messages.warning(request,'Successfully updated')
+            return HttpResponseRedirect(reverse('loanApp:home'))
+ 
+        context={'form': form}
+        messages.warning(request,'Form is not valid')
+        return render(request, 'loginApp/update/edit_bank.html', context)
+
+
+    context={'form': form}
+    return render(request, 'loginApp/update/edit_bank.html',context) 
+
 
 
 

@@ -52,18 +52,6 @@ def sign_up_view(request):
 
          
 
- 
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -101,22 +89,48 @@ def logout_view(request):
 
 @login_required(login_url='/account/login-customer')
 def edit_customer(request):
-    #user = User.objects.get(user=request.user)
-    customer = CustomerInfo.objects.get(user=request.user)
-    form = UpdateCustomerForm(instance=customer)
+
+    form = UserUpdateForm(instance=request.user)
+    form2 = CustomerInfoForm(instance=request.user.customer_info)
+    
     if request.method == 'POST':
 
-        form = UpdateCustomerForm(request.POST, request.FILES, instance=customer)
-        if form.is_valid:
-            customer = form.save(commit=False)
-            customer.save()
-            return HttpResponseRedirect(reverse('home'))
-    # return HttpResponseRedirect(reverse('home'))
-    
-    return render(request, 'loginApp/edit.html', context={'form': form})
-
-
+        form = UserUpdateForm(request.POST,  instance = request.user)
+        form2 = CustomerInfoForm(request.POST,request.FILES,instance=request.user.customer_info)
+   
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+        
+            return HttpResponseRedirect(reverse('loanApp:home'))
  
+        context={'form': form,'form2':form2}
+        return render(request, 'loginApp/update/edit.html', context)
+
+
+    context={'form': form,'form2':form2}
+    return render(request, 'loginApp/update/edit.html',context)       
+
+
+
+
+@login_required(login_url='/account/login-customer')
+def edit_password(request):
+
+    form = UserUpdatePasswordForm(instance=request.user)
+    if request.method == 'POST':
+
+        form = UserUpdatePasswordForm(request.POST,  instance = request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('loanApp:home'))
+ 
+        context={'form': form}
+        return render(request, 'loginApp/update/edit_password.html', context)
+
+
+    context={'form': form}
+    return render(request, 'loginApp/update/edit_password.html',context) 
 
 
 
@@ -148,5 +162,9 @@ def customerInfo(request):
 
 
 
+
+def editCustomer(request):
+
+    return render(request, 'loginApp/update/edit_info.html') 
 
 

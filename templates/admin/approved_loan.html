@@ -33,8 +33,9 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Request Date</th>
                     <th scope="col">Approved Date</th>
-                    <th scope="col">Year</th>
-                    <th scope="col">Customer Email</th>
+                    <th scope="col">expected Return</th>
+                    <!--<th scope="col">Gross Income</th>-->
+                  
 
 
                 </tr>
@@ -55,12 +56,16 @@
                     <!-- <td> <img src="/media/{{user.profile_picture}}" alt="Profile Pic" height="40px" width="40px" />
                     </td> -->
                     <td>{{loan.category}}</td>
-                    <td># {{loan.amount}} </td>
+                    <td>₦ {{loan.amount}} </td>
                     <td>{{loan.request_date}}</td>
                     <td>{{loan.status_date}}</td>
-                    <td>{{loan.year}}</td>
-                    <td>{{loan.customer.user.email}}</td>
 
+                
+                    <td>₦{{ loan.total_payment }}</td>
+                    <!--<td>{{ loan.total_payment|add:'-loan.amount'}}</td>
+                    <td>{{ profit }}</td>-->
+               
+                
 
                 </tr>
                 {% endfor %}

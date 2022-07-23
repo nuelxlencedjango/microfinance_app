@@ -36,8 +36,7 @@ def superuser_login_view(request):
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
 
-                user = authenticate(
-                    request, username=username, password=password)
+                user = authenticate(request, username=username, password=password)
 
                 if user is not None:
 
@@ -68,12 +67,10 @@ def dashboard(request):
     requestLoan = loanRequest.objects.all().filter(status='pending').count(),
     approved = loanRequest.objects.all().filter(status='approved').count(),
     rejected = loanRequest.objects.all().filter(status='rejected').count(),
-    totalLoan = CustomerLoan.objects.aggregate(Sum('total_loan'))[
-        'total_loan__sum'],
-    totalPayable = CustomerLoan.objects.aggregate(
-        Sum('payable_loan'))['payable_loan__sum'],
-    totalPaid = loanTransaction.objects.aggregate(Sum('payment'))[
-        'payment__sum'],
+
+    totalLoan = CustomerLoan.objects.aggregate(Sum('total_loan'))['total_loan__sum'],
+    totalPayable = CustomerLoan.objects.aggregate(Sum('payable_loan'))['payable_loan__sum'],
+    totalPaid = loanTransaction.objects.aggregate(Sum('payment'))['payment__sum'],
 
     dict = {
         'totalCustomer': totalCustomer[0],
@@ -142,10 +139,10 @@ def approved_request(request, id):
         PreviousPayable = CustomerLoan.objects.get(customer=approved_customer).payable_loan
 
         # update balance
-        CustomerLoan.objects.filter(
-            customer=approved_customer).update(total_loan=int(PreviousAmount)+int(loan_obj.amount))
-        CustomerLoan.objects.filter(
-            customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.12*int(year))
+        CustomerLoan.objects.filter(customer=approved_customer).update(total_loan=int(PreviousAmount)+int(loan_obj.amount))
+        CustomerLoan.objects.filter( customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.10)# *int(year))
+       
+    
 
     else:
 
@@ -156,12 +153,20 @@ def approved_request(request, id):
 
         save_loan.customer = approved_customer
         save_loan.total_loan = int(loan_obj.amount)
-        save_loan.payable_loan = int(
-            loan_obj.amount)+int(loan_obj.amount)*0.12 #*int(year)
+        save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.10 #*int(year)
         save_loan.save()
-
+       
+       
     loanRequest.objects.filter(id=id).update(status='approved')
     loanrequest = loanRequest.objects.filter(status='pending')
+
+    save_loan = CustomerLoan()
+    save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.10 #*int(year) 
+
+    loanRequest.objects.filter(id=id, customer=approved_customer).update(total_payment= save_loan.payable_loan)
+    # each transaction should have different balance
+      #loanTransaction.objects.filter(id=id, customer=approved_customer).update(total_payment= save_loan.payable_loan)
+     
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
@@ -186,7 +191,9 @@ def rejected_request(request, id):
 def approved_loan(request):
     # print(datetime.now())
     approvedLoan = loanRequest.objects.filter(status='approved')
-    return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})
+  
+    return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})#,'profit':profit})
+
 
 
 @staff_member_required(login_url='/manager/admin-login')
