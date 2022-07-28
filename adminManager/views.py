@@ -338,9 +338,7 @@ def searchLocation(request):
                 
             
         
-        
-        
-
+    
         total_amount_loan =sum(amt)
         totalPay =sum(total_payment)
         totalExpected = sum(exp)
