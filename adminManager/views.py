@@ -51,6 +51,10 @@ def superuser_login_view(request):
 
                     if user.is_superuser:
                         login(request, user)
+                        customers =CustomerLoan.objects.all()
+                        for cus in customers:
+                            cus.get_date()
+                            cus.save()
                         return HttpResponseRedirect(reverse('adminManager:dashboard'))
                     else:
                         return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "You are not Super User"})
@@ -71,6 +75,7 @@ def superuser_login_view(request):
 # @user_passes_test(lambda u: u.is_superuser)
 @staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
+    
 
     totalCustomer = CustomerInfo.objects.all().count(),
     requestLoan = loanRequest.objects.all().filter(status='pending').count(),

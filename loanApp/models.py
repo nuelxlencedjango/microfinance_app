@@ -111,7 +111,7 @@ class CustomerLoan(models.Model):
                 new_bal =totalPayable + (new_bal *10) / 100
                 mydate = datetime.now() + timedelta(days=1)
 
-                CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal)) 
+                CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal))#,bal=int(new_bal)) 
 
         else:
            

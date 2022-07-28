@@ -30,7 +30,7 @@ def home(request):
         for bal in tr:
             a=bal.updateBalance()
      
-        return render(request, 'home.html', context={'present':present,'today':today,'abb':abb,'a':a})
+        return render(request, 'home.html', context={'present':present,'today':today,'abb':abb})#'a':a})
     return render(request, 'home.html', context={'present':present,'today':today})
 
 
