@@ -1,0 +1,211 @@
+
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+
+
+{% block block_js %}
+
+
+
+
+{% load mathfilters %}
+
+
+<script>
+
+</script>
+{% endblock %}
+
+
+{% block css_block %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+
+
+
+{% if  location %}
+<div class="container">
+  
+    {% for loc in location %}
+    <h1 class="text-center text-primary">{{loc.area}} Customers</h1>
+    {% endfor %}
+     <div class="users my-5">
+        <h3>Total Loaned: {{ total_amount_loan}} &nbsp; &nbsp; &nbsp; &nbsp;  <span> Total Amount Expected:{{totalExpected}}</span></h3>
+        <h3>Outstanding: {{ totalBalance}} </h3>
+        <div class="row">
+            <div class="col-md-2">
+                <table class="table table-light table-hover table-bordered table-striped text-center">
+                    <thead class="bg-dark ">
+                            <tr class="text-dark ">
+                                <th scope="col">SL</th>
+                                <th scope="col">Names</th>
+                            </tr>
+
+                    </thead>
+
+                    <tbody>
+    
+                        {% for client in persons %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{client}}</td>
+                        </tr>
+                        {% endfor %}
+                       
+                    
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-2">
+                <table class="table table-light table-hover table-bordered table-striped text-center">
+                    <thead class="bg-dark ">
+                        <tr class="text-dark ">
+                          
+                            <th scope="col">Total Transaction</th>
+                        </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for amount in amt %}
+                    <tr>
+                      
+                        <td>{{amount}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="total"> {{ total_amount_loan}}</td>
+                    </tr>
+                   
+                
+                </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-2">
+                <table class="table table-light table-hover table-bordered table-striped text-center">
+                    <thead class="bg-dark ">
+                        <tr class="text-dark ">
+                           
+                            <th scope="col">EXpected Amount</th>
+                        </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for total_amount in exp %}
+                    <tr>
+                      
+                        <td>{{total_amount}}</td>
+                    </tr>
+                   
+                    {% endfor %}
+                    <tr>
+                        <td class="total"> {{totalExpected}}</td>
+                    </tr>
+                
+                </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-2">
+                <table class="table table-light table-hover table-bordered table-striped text-center">
+                    <thead class="bg-dark ">
+                        <tr class="text-dark ">
+                          
+                            <th scope="col">Total Payment</th>
+                        </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for amount_paid in total_payment %}
+                    <tr>
+                        <td>{{amount_paid}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="total"> {{totalPay}}</td>
+                    </tr>
+                
+                </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-2">
+                <table class="table table-light table-hover table-bordered table-striped text-center">
+                    <thead class="bg-dark ">
+                        <tr class="text-dark ">
+                         
+                            <th scope="col">Outstanding</th>
+                        </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for debt in balance %}
+                    <tr>
+                      
+                        <td>{{debt}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="total"> {{totalBalance}}</td>
+                    </tr>
+                
+                </tbody>
+                </table>
+
+              
+
+            </div>
+
+            <!--<div class="col-md-2">
+                <table class="table table-light table-hover table-bordered table-striped text-center">
+                    <thead class="bg-dark ">
+                        <tr class="text-dark ">
+                         
+                            <th scope="col">Profit</th>
+                        </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for grossP in profit %}
+                    <tr>
+                      
+                        <td>{{grossP}}</td>
+                    </tr>
+                    {% endfor %}
+                
+                </tbody>
+                </table>
+
+              
+
+            </div>-->
+          
+        </div>
+     </div>
+</div>
+
+{% else %}
+<h1 class="text-center text-primary">{{location.area}} Customers not found</h1>
+{% endif %}  
+
+
+
+{% endblock %}

@@ -56,9 +56,17 @@ class loanRequest(models.Model):
 
     total_payment =models.PositiveIntegerField(default=0)
     complete_payment  = models.BooleanField(default=False)
+    profit = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.customer.username
+
+    def get_total_price(self):
+        balance=self.total_payment - self.amount 
+        loanRequest.objects.filter(customer=self.customer).update(profit=balance) 
+
+        return balance  
+
 
 
 
@@ -67,12 +75,13 @@ class CustomerLoan(models.Model):
     customer = models.ForeignKey(User,null=True,  on_delete=models.SET_NULL, related_name='loan_user')
     total_loan = models.PositiveIntegerField(default=0)
     payable_loan = models.PositiveIntegerField(default=0)
-    date_approved =  models.DateTimeField(auto_now=True)
-    bal = models.PositiveIntegerField(default=0)
+    date_approved =  models.DateField(auto_now=True)
+    #date_approved =  models.DateTimeField(auto_now=True)
+    balance = models.PositiveIntegerField(default=0)
     payment = models.CharField(max_length=20, default='Not paid yet')
+    total_amount_paid = models.PositiveIntegerField(default=0)
 
     mydate = models.DateTimeField(editable=False,null=True)
-
 
     def __str__(self):
         return self.customer.username
@@ -151,6 +160,18 @@ class loanTransaction(models.Model):
 
     def __str__(self):
         return self.customer.username
+
+
+    def updateBalance(self):
+        
+        totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
+        Sum('payable_loan'))['payable_loan__sum']
+
+        totalPaid = loanTransaction.objects.filter(customer=self.customer).aggregate(Sum('payment'))[
+        'payment__sum'] 
+        bal = totalPayable - totalPaid
+        CustomerLoan.objects.filter(customer=self.customer).update(total_amount_paid=totalPaid,balance=bal)
+
 
 
     class Meta:

@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from multiprocessing import context
+from pyexpat.errors import messages
+from urllib import request
+
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import AdminLoginForm
-from django.shortcuts import redirect
+
+from django.shortcuts import render ,redirect ,get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
@@ -14,12 +18,17 @@ from loanApp.models import loanCategory, loanRequest, CustomerLoan, loanTransact
 from .forms import LoanCategoryForm
 
 from account.models import *
-
+from account.models import *
 from django.contrib.auth.models import User
-
+from django.db.models import Q 
 from datetime import date
-
+from django.contrib import messages
 from django.db.models import Sum
+
+from django.views.generic import (
+    ListView ,DetailView, CreateView, UpdateView ,DeleteView
+
+)
 # Create your views here.
 # Create your views here.
 
@@ -208,12 +217,175 @@ def transaction_loan(request):
     return render(request, 'admin/transaction.html', context={'transactions': transactions})
 
 
-@staff_member_required(login_url='/manager/admin-login')
-def detailedCustomerInfo(self,id):
-    pass
 
 
 
 @staff_member_required(login_url='/manager/admin-login')
-def searchLocation(self,id):
-    pass
+def detailedCustomerInfo(request,pk):
+    user =get_object_or_404(User,id=pk)
+
+    if loanRequest.objects.filter(customer=user).exists() and CustomerLoan.objects.filter(customer=user) and loanTransaction.objects.filter(customer=user).exists():
+        loan_info = loanRequest.objects.filter(customer=user,status='approved')
+        customer_info = CustomerLoan.objects.filter(customer=user)
+        loan_transact = loanTransaction.objects.filter(customer=user)
+      
+        total_loaned_amount = loanRequest.objects.filter(customer=user).aggregate(
+            Sum('amount'))['amount__sum']
+
+        total_return_amount = loanRequest.objects.filter(customer=user).aggregate(
+            Sum('total_payment'))['total_payment__sum']
+
+        total_profit = loanRequest.objects.filter(customer=user).aggregate(
+            Sum('profit'))['profit__sum']  
+
+        total_payment_made = loanTransaction.objects.filter(customer=user).aggregate(
+            Sum('payment'))['payment__sum'] 
+              
+        CustomerLoan.objects.filter(customer=user).update(bal=total_payment_made)       
+        
+        all="doing good"
+
+        context={'loan_info':loan_info,'customer_info':customer_info,'loan_transact':loan_transact,
+        'all':all,'user':user,'total_loaned_amount':total_loaned_amount,'total_return_amount':total_return_amount,
+        'total_profit':total_profit,'total_payment_made':total_payment_made}
+
+        return render(request, 'admin/customer_loan_detail.html', context)
+
+
+    elif loanRequest.objects.filter(customer=user).exists() and CustomerLoan.objects.filter(customer=user):
+        loan_info = loanRequest.objects.filter(customer=user,status='approved')
+        customer_info = CustomerLoan.objects.filter(customer=user)
+
+        messages.warning(request,'This customer has not made any payment')
+        yet_to_pay ="not paid"
+        context={'loan_info':loan_info,'customer_info':customer_info,'yet_to_pay':yet_to_pay,'user':user}
+        
+        return render(request, 'admin/customer_loan_detail.html', context)
+
+    else:
+        loan_info = loanRequest.objects.filter(customer=user,status='approved')
+        pend =""
+        context={'loan_info':loan_info,'pend':pend,'user':user}
+
+        return render(request, 'admin/customer_loan_detail.html', context)
+
+        
+
+def getLocation(request):
+    #return redirect('adminManager:locations') 
+    return render(request,'admin/location.html')
+
+
+
+@staff_member_required(login_url='/manager/admin-login')
+def searchLocation(request):
+    
+#def search(request):
+# use try catch here
+    query = request.GET.get('search')
+    location = Location.objects.filter(Q(area__icontains =query))
+    if location and CustomerInfo.objects.filter(location__in=location):
+
+        names = CustomerInfo.objects.filter(location__in=location)
+
+        persons =[]
+        amt=[]
+        exp =[]
+
+        total_payment=[]
+        balance=[]
+
+        #loan_customers=[]
+        #loan_amount =[]
+       # expected_day_to_pay=[]
+        amt_paid=[]
+        #profit =[]
+
+        for name in names:
+            pp =CustomerLoan.objects.filter(customer=name.user)
+            loan = loanRequest.objects.filter(customer=name.user)
+            for n in pp:
+            #a =pp.total_loan
+                persons.append(n.customer)
+                amt.append(n.total_loan)
+                exp.append(n.payable_loan)
+                balance.append(n.balance)
+                total_payment.append(n.total_amount_paid)
+                
+                #bal.append(n.payable_loan - n.total_loan)
+            # outstanding =n.payable_loan - n.total_loan
+                #balance.append(outstanding)
+                
+                #print(n.customer)
+                #print(n.total_loan)
+                #print(n.payable_loan)
+                #print('profit:',bal)
+                #print(sum(bal))
+
+            for name in loan:
+                #ny = name.customer 
+                #loan_customers.append(name.customer)
+                #am =name.amount
+                #loan_amount.append(name.amount)
+                #day =name.days
+                #expected_day_to_pay.append(name.days)
+                #py =name.total_payment
+                amt_paid.append(name.total_payment)
+                #cm =name.complete_payment
+                #pf = name.profit   
+                #profit.append(name.profit)
+
+                
+            
+        
+        
+        
+
+        total_amount_loan =sum(amt)
+        totalPay =sum(total_payment)
+        totalExpected = sum(exp)
+        #totalProfit = sum(profit)
+        totalBalance = sum(balance)
+
+        context ={'persons':persons,'amt':amt,'exp':exp,'balance':balance,
+        'total_payment':total_payment,'location':location,
+        'total_amount_loan':total_amount_loan,'totalPay':totalPay,'totalExpected':totalExpected,#'profit':profit,
+        #'totalProfit':totalProfit,
+        'totalExpected':totalExpected,'totalBalance':totalBalance}
+
+        return render(request, 'admin/location_detail.html', context)
+
+    return render(request, 'admin/location_detail.html')    
+        
+        
+
+
+
+
+#profile_name_search = Profile.objects.get(profile_name=usr_name)
+#user_avatar = Avatar.objects.filter(user=profile_name_search.user.pk)
+
+class SearchResultsView(ListView):
+    model = Location
+    template_name = 'admin/location_detail.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        product=Location.objects.get(Q(area__icontains=query))
+        persons = CustomerInfo.objects.filter(location=product)
+        for per in persons:
+            pp =CustomerLoan.objects.filter(customer=per.user)
+            for d in pp:
+                n =CustomerLoan.objects.filter(customer=d.customer)
+                if loanRequest.objects.filter(customer=d.customer):
+                    v =loanRequest.objects.filter(customer=d.customer)
+                    print(v[0])
+        #for 
+
+        #names = CustomerLoan.objects.filter(customer=persons)
+
+        return v
+
+
+      

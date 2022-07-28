@@ -26,8 +26,11 @@ def home(request):
 
     if request.user.is_authenticated:
         abb = CustomerLoan.objects.filter(customer=request.user)
+        tr =loanTransaction.objects.filter(customer=request.user)
+        for bal in tr:
+            a=bal.updateBalance()
      
-        return render(request, 'home.html', context={'present':present,'today':today,'abb':abb})
+        return render(request, 'home.html', context={'present':present,'today':today,'abb':abb,'a':a})
     return render(request, 'home.html', context={'present':present,'today':today})
 
 

@@ -1,0 +1,159 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load static %}
+
+
+{% block block_js %}
+
+
+
+
+{% load mathfilters %}
+
+
+<script>
+
+</script>
+{% endblock %}
+
+
+{% block css_block %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+   
+    <h1 class="text-center text-primary">{{user.first_name}} &nbsp; {{user.last_name}}</h1>
+    <h3>email:{{user.email}}</h3>
+    <h4>Phone:{{user.customer_info.phone}}</h4>
+    <div>
+        <img src="{{ user.customer_info.profile_img.url }}" height="100px" width="150px" alt="">
+    </div>
+    <div class="users my-5">
+       
+
+        <table class="table table-light table-hover table-bordered table-striped text-center">
+            
+            <thead class="bg-dark ">
+                <tr class="text-dark ">
+                    <th scope="col">SL</th>
+                    <th scope="col">Loan ID</th>
+                    <th scope="col">Requested Date</th>
+
+                    <th scope="col">Approved Date</th>
+
+                    <th scope="col">Loaned Amount</th>
+                    <th scope="col">Amount Expected</th>
+                    <th scope="col">Gross Profit</th>
+                    <th scope="col">Reasons</th>
+                   
+                  
+                   
+                   
+                     <!--<th scope="col">Guarantor no</th>-->
+                     <th scope="col">Expected date</th>
+                     <!--<th scope="col">Outstanding</th>-->
+                </tr>
+            </thead>
+
+
+            <tbody>
+                {% for loan in item %}
+
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{loan.id}}</td>
+                    <td>{{loan.request_date}}</td>
+                    
+
+                    {% for info in customer_info %}
+                    <td>{{ info.date_approved}}</td>
+
+                    <td>₦ {{loan.amount}} </td>
+                    <td style="color:green">₦ {{loan.total_payment}} </td>
+                    <td style="color: red">₦{{ loan.get_total_price}}</td>                  
+                    <td>{{loan.category}}</td>
+                    <td>{{info.mydate}}</td>
+                    {% endfor %}
+                 
+                </tr>
+
+              
+                {% endfor %}
+          
+                <tr>
+                    <td></td>
+                  
+
+                       <td colspan="3" ><b>Total Amount</b></td>
+                       <td><b>₦{{ total_loaned_amount|sub:0  }}</b></td>
+               
+                  
+
+                       <td><b>₦{{ total_return_amount|sub:0  }}</b></td>
+                       <td><b>₦{{ total_profit|sub:0}}</b></td>
+                   </tr>
+                
+              
+
+            </tbody>
+
+        </table>
+
+
+       
+        <h1 class="text-center text-primary">Payment Details</h1>
+        <table class="table table-light table-hover table-bordered table-striped text-center">
+            <thead class="bg-dark ">
+                <tr class="text-dark ">
+                    <th scope="col">SL</th>
+                
+                    <th scope="col">Payment</th>
+                    <th scope="col">Payment date</th>
+                   
+                    <th scope="col">Payment id</th>
+                   
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for loan in loan_transact %}
+
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                  
+                    <td>₦{{loan.payment}}</td>
+                    <td>{{ loan.payment_date}}</td>
+
+                    <td> {{loan.transaction_id}} </td>
+            
+                </tr>
+                {% endfor %}
+
+                <tr>
+                 
+                       <td ><b>Total Amount Paid</b></td>
+                       <td><b>₦{{ total_payment_made}}</b></td>
+                      
+                   </tr>
+              
+               
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

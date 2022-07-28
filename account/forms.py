@@ -41,7 +41,10 @@ class CustomerInfoForm(ModelForm):
     def __init__(self ,*args ,**kwargs):
 
         super(CustomerInfoForm,self).__init__(*args ,**kwargs)
-        self.fields['location'].empty_label ="select state"
+        self.fields['location'].empty_label ="select location"
+
+        super(CustomerInfoForm,self).__init__(*args ,**kwargs)
+        self.fields['state'].empty_label ="select state"
 
 
 
