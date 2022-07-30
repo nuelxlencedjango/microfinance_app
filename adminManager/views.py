@@ -51,10 +51,7 @@ def superuser_login_view(request):
 
                     if user.is_superuser:
                         login(request, user)
-                        customers =CustomerLoan.objects.all()
-                        for cus in customers:
-                            cus.get_date()
-                            cus.save()
+                       
                         return HttpResponseRedirect(reverse('adminManager:dashboard'))
                     else:
                         return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "You are not Super User"})
@@ -97,6 +94,11 @@ def dashboard(request):
 
     }
     print(dict)
+    
+    customers =CustomerLoan.objects.all()
+    for cus in customers:
+        cus.get_date()
+        cus.save()
 
     return render(request, 'admin/dashboard.html', context=dict)
 

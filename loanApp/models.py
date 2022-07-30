@@ -80,7 +80,7 @@ class CustomerLoan(models.Model):
     balance = models.PositiveIntegerField(default=0)
     payment = models.CharField(max_length=20, default='Not paid yet')
     total_amount_paid = models.PositiveIntegerField(default=0)
-
+    bal = models.PositiveIntegerField(default=0)
     mydate = models.DateTimeField(editable=False,null=True)
 
     def __str__(self):
@@ -111,7 +111,7 @@ class CustomerLoan(models.Model):
                 new_bal =totalPayable + (new_bal *10) / 100
                 mydate = datetime.now() + timedelta(days=1)
 
-                CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal))#,bal=int(new_bal)) 
+                CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal)) 
 
         else:
            
