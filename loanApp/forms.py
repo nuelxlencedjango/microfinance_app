@@ -1,5 +1,4 @@
 
-
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
@@ -16,14 +15,11 @@ class LoanRequestForm(forms.ModelForm):
         fields = ('category', 'amount','guarantor_name','guarantor_no' )
 
 
+
 class LoanTransactionForm(forms.ModelForm):
     class Meta:
         model =loanTransaction
         fields = ('payment',)
-
-
-
-
 
 
 
@@ -37,8 +33,6 @@ class CustomerBankForm(ModelForm):
              'bank_name':forms.TextInput(attrs={'class':'form-control'}),
             'account_no':forms.TextInput( attrs={'class':'form-control'}),
 
-           # 'nin':forms.TextInput(attrs={'class':'form-control'}),
-           # 'bvn':forms.TextInput(attrs={'class':'form-control'}),
            # 'card_no':forms.TextInput(attrs={'class':'form-control'}),
             'next_of_kin':forms.TextInput(attrs={'class':'form-control'}),
            

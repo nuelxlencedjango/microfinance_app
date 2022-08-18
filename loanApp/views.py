@@ -27,11 +27,14 @@ def home(request):
     if request.user.is_authenticated:
         abb = CustomerLoan.objects.filter(customer=request.user)
         tr =loanTransaction.objects.filter(customer=request.user)
-        for bal in tr:
-            a=bal.updateBalance()
+        for bal in abb:
+            pass
+            #a=bal.get_dattime()
      
-        return render(request, 'home.html', context={'present':present,'today':today,'abb':abb})#'a':a})
-    return render(request, 'home.html', context={'present':present,'today':today})
+        return render(request, 'new/general/index.html', context={'abb':abb})#'a':a,})#'a':a})
+        #return render(request, 'home.html', context={'abb':abb})#'a':a})
+    return render(request, 'new/general/index.html', context={'present':present,'today':today})
+    #return render(request, 'home.html', context={'present':present,'today':today})
 
 
 
@@ -119,12 +122,12 @@ def LoanPayment(request):
             payment.customer = request.user
             payment.save() 
 
-
             totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
                 Sum('payable_loan'))['payable_loan__sum']
 
             totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
             'payment__sum']
+            CustomerLoan.objects.filter(customer=request.user).update(total_amount_paid=totalPaid, balance=int(totalPayable-totalPaid),bal=int(totalPayable-totalPaid))
 
             if totalPayable == totalPaid:
                 CustomerLoan.objects.filter(customer=request.user).update(payment="Fully paid")

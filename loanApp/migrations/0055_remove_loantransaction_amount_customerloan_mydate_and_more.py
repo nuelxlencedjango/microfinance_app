@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('date', models.DateField(default=datetime.datetime.today)),
-                ('deadline', models.DateField(default=loanApp.models.get_deadline)),
+                #('deadline', models.DateField(default=loanApp.models.get_deadline)),
                 ('customer', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='bills', to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -58,7 +58,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
      'widget_tweaks',
-     'mathfilters'
+     'mathfilters',
+     'django_celery_results',
+     'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -177,3 +179,11 @@ EMAIL_HOST_PASSWORD  = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+
+
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND ='django-cache'
+# Celery settings
+#CELERY_BROKER_URL = "redis://localhost:6379"
+#CELERY_RESULT_BACKEND = "redis://localhost:6379"

@@ -29,6 +29,7 @@ from django.views.generic import (
     ListView ,DetailView, CreateView, UpdateView ,DeleteView
 
 )
+from datetime import datetime, timedelta
 # Create your views here.
 # Create your views here.
 
@@ -95,12 +96,38 @@ def dashboard(request):
     }
     print(dict)
     
-    customers =CustomerLoan.objects.all()
-    for cus in customers:
-        cus.get_date()
-        cus.save()
+    #def check_due_date():
+    all_customer =CustomerLoan.objects.all()
+    for name in all_customer:
+        if int(datetime.now().strftime("%s")) <= int(name.mydate.strftime("%s")):
+            amount_payable = CustomerLoan.objects.filter(customer=name.customer)#,payable_loan=name.payable_loan)
+            #amount_paid = CustomerLoan.objects.filter(customer=name.customer,total_amount_paid=name.total_amount_paid)
+
+            for amt in amount_payable:
+                amount = amt.payable_loan
+                amt_paid = amt.total_amount_paid
+            
+                if int(amount) > int(amt_paid):
+                    new_bal =amount - amt_paid
+
+                    new_bal = (new_bal *10) / 100
+                    mydate = datetime.now() + timedelta(days=1)
+
+                    CustomerLoan.objects.filter(customer=name.customer).update(mydate=name.mydate,
+                    payable_loan=(new_bal+amount),bal=int(amount+new_bal-amt_paid),
+                     balance=int(amount+new_bal-amt_paid)) 
+
+                else:
+                    CustomerLoan.objects.filter(customer=name.customer).update(payment ="Not owing any amount") 
+
+        else:
+            mydate =name.mydate - datetime.now()
+            print(mydate,'days remaining')
+
 
     return render(request, 'admin/dashboard.html', context=dict)
+
+
 
 
 @staff_member_required(login_url='/manager/admin-login')

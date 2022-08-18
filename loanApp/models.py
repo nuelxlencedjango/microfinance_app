@@ -1,14 +1,28 @@
+from dataclasses import replace
 from operator import truediv
 from pyexpat.errors import messages
 from django.db import models
 from django.contrib.auth.models import User
 from account.models import *
 from django.db.models import Sum
-from datetime import datetime, timedelta
+
+from datetime import datetime, timedelta, tzinfo
+
+
 
 #from utils import create_new_ref_number
 import random
 import uuid
+
+
+
+#from django.utils import timezone timezone.now()
+#import datetime
+#import time
+#import tzlocal
+#import pytz
+
+#utc=pytz.UTC
 # Create your models here.
 
 
@@ -94,30 +108,36 @@ class CustomerLoan(models.Model):
         # only add 30 days if it's the first time the model is saved
         if not self.id:
             self.mydate = datetime.now() + due_date
-            super(CustomerLoan, self).save()    
+            super(CustomerLoan, self).save()   
+            
+
+    def get_date(self):
+        from .tasks import check_due_date
+        check_due_date()         
 
     
-    def get_date(self):
-        totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
-        Sum('payable_loan'))['payable_loan__sum']
+    #def get_dattime(self):
+        #totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
+        #Sum('payable_loan'))['payable_loan__sum']
 
-        totalPaid = loanTransaction.objects.filter(customer=self.customer).aggregate(Sum('payment'))[
-        'payment__sum']
+       # totalPaid = loanTransaction.objects.filter(customer=self.customer).aggregate(Sum('payment'))[
+        #'payment__sum']
         
-        if self.mydate ==  datetime.now():
-            if totalPayable > totalPaid:
-                new_bal =totalPayable - totalPaid
+        #if int(datetime.now().strftime("%s")) <= int(self.mydate.strftime("%s")):
+           # if int(totalPayable) > int(totalPaid):
+               # new_bal =totalPayable - totalPaid
+               # print('new balance:',new_bal)
 
-                new_bal =totalPayable + (new_bal *10) / 100
-                mydate = datetime.now() + timedelta(days=1)
+               # new_bal =totalPayable + (new_bal *10) / 100
+               # mydate = datetime.now() + timedelta(days=1)
 
-                CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal)) 
+               # CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal)) 
 
-        else:
+       # else:
            
-            mydate = datetime.now() + timedelta(days=7)
+          #  mydate = datetime.now() 
            
-        return 'Please on or before {} '.format(mydate)
+       # return 'Please on or before {} '.format(mydate)
         
 
 
@@ -149,21 +169,19 @@ class loanTransaction(models.Model):
 
     transaction_id = models.UUIDField(default=uuid.uuid4, editable=False,null=True)
     #transaction_id = models.CharField(max_length=36, default=uuid.uuid4,editable=True)
-   # payment_id =models.CharField(max_length=50,unique=True, default =None,blank=True,null=True)
 
     payment = models.PositiveIntegerField(default=0)
     payment_date = models.DateField(auto_now_add=True)
     balance =models.PositiveIntegerField(default=0)
+    #dateof_payment = models.DateTimeField(auto_now=True)
 
     total_payment =models.PositiveIntegerField(default=0)
      
-
     def __str__(self):
         return self.customer.username
 
 
-    def updateBalance(self):
-        
+    def updateBalance(self):      
         totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
         Sum('payable_loan'))['payable_loan__sum']
 
@@ -173,7 +191,6 @@ class loanTransaction(models.Model):
         CustomerLoan.objects.filter(customer=self.customer).update(total_amount_paid=totalPaid,balance=bal)
 
 
-
     class Meta:
       verbose_name_plural='loanTransaction'
        
@@ -181,23 +198,4 @@ class loanTransaction(models.Model):
        
 
 
-
-
-
-
-
-def get_deadline():
-
-    return datetime.today() + timedelta(days=30)
-
-class Bill(models.Model):
-    name = models.CharField(max_length=50)
-    customer = models.ForeignKey(User, related_name='bills',null=True, on_delete=models.CASCADE)
-    date = models.DateField(default=datetime.today)
-    deadline = models.DateField(default=get_deadline)  
-
-
-
       
-
-   
