@@ -264,4 +264,19 @@ def edit_bank(request):
 
 
 
+def aboutUs(request):
+    return render(request, 'new/general/about.html')
+
+
+
+def ourServices(request):
+    return render(request, 'new/general/services.html')
+
+
+
+def contactUs(request):
+    return render(request, 'new/general/contact.html')
+
+      
+
 

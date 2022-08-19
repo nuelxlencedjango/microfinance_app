@@ -19,6 +19,11 @@ urlpatterns =[
 
     path('user-bank/', views.customerBank, name='user-bank'),
     path('edit-bank/', views.edit_bank, name='edit-bank'),
+
+    path('contact_us/', views.contactUs, name='contact_us'),
+    path('services/', views.ourServices, name='services'),
+    path('about_us/', views.aboutUs, name='about_us'),
+       
  
 ]
 

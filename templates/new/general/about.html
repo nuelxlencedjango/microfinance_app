@@ -1,94 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'new/general/base.html' %}
+  {% load static %}
+  {% block content %}
 
-  <head>
+<style>
+  .team-item img{
+   width: 100%;
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="TemplateMo">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
-    <title>Finance Business - About Page</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-finance-business.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-<!--
-
-Finance Business TemplateMo
-
-https://templatemo.com/tm-545-finance-business
-
--->
-  </head>
+  }
+</style>
 
   <body>
 
-    <!-- ***** Preloader Start ***** -->
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>  
-    <!-- ***** Preloader End ***** -->
 
-    <!-- Header -->
-    <div class="sub-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-xs-12">
-            <ul class="left-info">
-              <li><a href="#"><i class="fa fa-clock-o"></i>Mon-Fri 09:00-17:00</a></li>
-              <li><a href="#"><i class="fa fa-phone"></i>090-080-0760</a></li>
-            </ul>
-          </div>
-          <div class="col-md-4">
-            <ul class="right-icons">
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <header class="">
-      <nav class="navbar navbar-expand-lg">
-        <div class="container">
-          <a class="navbar-brand" href="index.html"><h2>Finance Business</h2></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Home
-                  <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="about.html">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="services.html">Our Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
 
     <!-- Page Content -->
     <div class="page-heading header-text">
@@ -112,14 +35,14 @@ https://templatemo.com/tm-545-finance-business
                   <div class="right-content">
                     <span>our solid background on finance</span>
                     <h2>Get to know about <em>our company</em></h2>
-                    <p>Fusce nec ultrices lectus. Duis nec scelerisque risus. Ut id tempor turpis, ac dignissim ipsum. Nulla ullamcorper, ipsum vel condimentum congue, mi odio vehicula tellus, sit amet malesuada justo sem. 
-                    <br><br>Pellentesque in sagittis lacus, vel auctor sem. Quisque eu quam eleifend, ullamcorper dui nec, luctus quam.</p>
-                    <a href="" class="filled-button">Read More</a>
+                   <p>We are your financial advisors and lenders.We help you navigate through all your monetary challenges.
+                    <br><br>Think of money lenders,think of Simsudresources.We are your next door neighbours.Just contact us right away.</p>
+                    <a href="{% url 'loanApp:contact_us' %}" class="filled-button">Contact us today</a>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="left-image">
-                    <img src="assets/images/about-image.jpg" alt="">
+                    <img src="/static/images/happiness.jpg" alt="">
                   </div>
                 </div>
               </div>
@@ -140,27 +63,28 @@ https://templatemo.com/tm-545-finance-business
           </div>
           <div class="col-md-4">
             <div class="team-item">
-              <img src="assets/images/team_01.jpg" alt="">
+              <img src="/static/images/passport_photo.jpg" alt="">
               <div class="down-content">
                 <h4>William Smith</h4>
                 <span>Co-Founder</span>
-                <p>In sem sem, dapibus non lacus auctor, ornare sollicitudin lacus. Aliquam ipsum urna, semper quis.</p>
+                <p>An entrepreneur who understands the dynamics of business.He can go any length to help businesses grow.</p>
+             
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="team-item">
-              <img src="assets/images/team_02.jpg" alt="">
+              <img src="/static/assets/images/team_02.jpg" alt="">
               <div class="down-content">
                 <h4>Mary Houston</h4>
                 <span>Chief Marketing Officer</span>
-                <p>In sem sem, dapibus non lacus auctor, ornare sollicitudin lacus. Aliquam ipsum urna, semper quis.</p>
+                <p>An entrepreneur who understands the dynamics of business.He can go any length to help businesses grow.</p>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="team-item">
-              <img src="assets/images/team_03.jpg" alt="">
+              <img src="/static/images/vic.jpg" alt="">
               <div class="down-content">
                 <h4>Paul Walker</h4>
                 <span>Financial Analyst</span>
@@ -172,7 +96,7 @@ https://templatemo.com/tm-545-finance-business
       </div>
     </div>
 
-    <div class="fun-facts">
+   <!---<div class="fun-facts">
       <div class="container">
         <div class="row">
           <div class="col-md-6">
@@ -212,13 +136,13 @@ https://templatemo.com/tm-545-finance-business
               </div>
             </div>
           </div>
-        </div>
+        </div>-
       </div>
-    </div>
+    </div>-->
 
     <div class="testimonials">
       <div class="container">
-        <div class="row">
+        <!--<div class="row">
           <div class="col-md-12">
             <div class="section-heading">
               <h2>What they say <em>about us</em></h2>
@@ -266,12 +190,12 @@ https://templatemo.com/tm-545-finance-business
               
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
 
     <!-- Footer Starts Here -->
-    <footer>
+    <!--<footer>
       <div class="container">
         <div class="row">
           <div class="col-md-3 footer-item">
@@ -347,28 +271,7 @@ https://templatemo.com/tm-545-finance-business
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
-    <script language = "text/Javascript"> 
-      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-      function clearField(t){                   //declaring the array outside of the
-      if(! cleared[t.id]){                      // function makes it static and global
-          cleared[t.id] = 1;  // you could use true and false, but that's more typing
-          t.value='';         // with more chance of typos
-          t.style.color='#fff';
-          }
-      }
-    </script>
-
-  </body>
-</html>
+{% endblock  %}

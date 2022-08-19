@@ -1094,6 +1094,10 @@ footer .contact-form button.filled-button:hover {
 .team-item img {
 	width: 100%;
 	overflow: hidden;
+	
+	height: 180px;
+	object-fit: cover;
+	
 }
 
 .team-item .down-content {
