@@ -1,7 +1,4 @@
-
-
-
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
 
@@ -10,10 +7,10 @@ User Login
 {% endblock %}
 
 
-{% block body_block %}
+{% block content %}
 
-{% include 'navbar.html' %}
-<div class="container my-5">
+
+<div class="container my-5" style="margin-top:70px;">
 
     <div class="row">
         <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
@@ -65,7 +62,7 @@ User Login
                 </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="mb-4 btn btn-primary btn-block">Sign in</button>
+                <button type="submit" class="mb-4 btn btn-success btn-block" style="background: #a4c639;">Sign in</button>
 
                 <!-- Register buttons -->
                 <div class="text-center">
@@ -83,7 +80,7 @@ User Login
                         <i class="fab fa-twitter"></i>
                     </button>
 
-                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                    <button type="button" class="mx-1 btn btn-success btn-floating">
                         <i class="fab fa-github"></i>
                     </button>
                 </div>
@@ -100,6 +97,6 @@ User Login
 
 </div>
 
-{% include "footer.html" %}
+
 
 {% endblock %}
