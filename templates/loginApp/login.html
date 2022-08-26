@@ -1,16 +1,28 @@
 {% extends 'new/general/base.html' %}
-{% load widget_tweaks %}
-{% load static %}
+  {% load static %}
+  {% block content %}
+  {% load widget_tweaks %}
 
-{% block title_block %}
-User Login
-{% endblock %}
+  <style>
+    .page-heading{
+        height: 150px;
+    }
+  
+  </style>
 
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Login page</h1>
+          <span>login to do your transactions!</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-{% block content %}
-
-
-<div class="container my-5" style="margin-top:70px;">
+  
+<div class="container my-5">
 
     <div class="row">
         <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
@@ -62,21 +74,21 @@ User Login
                 </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="mb-4 btn btn-success btn-block" style="background: #a4c639;">Sign in</button>
+                <button type="submit" class="mb-4 btn btn-success btn-block">Sign in</button>
 
                 <!-- Register buttons -->
                 <div class="text-center">
                     <p>Not a member? <a href="/account/signup-customer">Register</a></p>
                     <p>or sign up with:</p>
-                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                    <button type="button" class="mx-1 btn btn-success btn-floating">
                         <i class="fab fa-facebook-f"></i>
                     </button>
 
-                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                    <button type="button" class="mx-1 btn btn-success btn-floating">
                         <i class="fab fa-google"></i>
                     </button>
 
-                    <button type="button" class="mx-1 btn btn-primary btn-floating">
+                    <button type="button" class="mx-1 btn btn-success btn-floating">
                         <i class="fab fa-twitter"></i>
                     </button>
 
@@ -99,4 +111,9 @@ User Login
 
 
 
-{% endblock %}
+
+
+
+
+
+  {% endblock %}

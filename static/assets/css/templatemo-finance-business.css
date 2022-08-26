@@ -577,9 +577,15 @@ ul.slick-dots {
 .service-item .down-content p {
 	margin-bottom: 20px;
 }
-
-
-
+.col a, .text-center p a{
+	color: green;
+}
+.btn-floating{
+	background: #a4c639;
+}
+.btn-block{
+	background: #a4c639;
+}
 /* Fun Facts */
 
 .fun-facts {

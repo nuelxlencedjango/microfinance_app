@@ -1,21 +1,33 @@
-{% extends 'base.html' %}
-{% load widget_tweaks %}
-{%load static%}
+
+{% extends 'new/general/base.html' %}
+  {% load static %}
 
 {% block title_block %}
 User Sign Up
 {% endblock %}
 
-{% block css_block %}
+  {% block content %}
+  {% load widget_tweaks %}
 
-{% endblock %}
+  <style>
+    .page-heading{
+        height: 150px;
+    }
+  
+  </style>
+
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>signup  page</h1>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-
-
-{% block body_block %}
-
-{% include 'navbar.html' %}
 <div class="container my-5">
 
     <div class="row">
@@ -103,7 +115,7 @@ User Sign Up
 
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Are you already a member? <a href="/account/login-customer">Sign in</a></p>
+                    <p>Are you already a member? <a href="{% url 'account:login_customer' %}">Sign in</a></p>
                     <p>or sign up with:</p>
                     <button type="button" class="mx-1 btn btn-primary btn-floating">
                         <i class="fab fa-facebook-f"></i>
@@ -136,7 +148,5 @@ User Sign Up
 
 </div>
 
-
-{% include "footer.html" %}
 
 {% endblock %}
