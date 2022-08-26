@@ -1,6 +1,5 @@
 
 
-from multiprocessing import context
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -10,7 +9,7 @@ from .models import *
 from django.shortcuts import redirect
 from account .forms import *
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 
 import datetime
 from datetime import datetime, timedelta
@@ -21,6 +20,8 @@ from django.db.models import Sum
 
 # @login_required(login_url='/account/login-customer')
 def home(request):
+   
+    
     present = datetime.now()+timedelta(days=30)
     today = datetime.now()
 
@@ -31,7 +32,7 @@ def home(request):
             pass
             #a=bal.get_dattime()
      
-        return render(request, 'new/general/index.html', context={'abb':abb})#'a':a,})#'a':a})
+        return render(request, 'new/general/index.html', context={'abb':abb})
         #return render(request, 'home.html', context={'abb':abb})#'a':a})
     return render(request, 'new/general/index.html', context={'present':present,'today':today})
     #return render(request, 'home.html', context={'present':present,'today':today})
@@ -43,7 +44,7 @@ def LoanRequest(request):
 
     if CustomerLoan.objects.filter(customer=request.user).exists():
         if loanTransaction.objects.filter(customer = request.user).exists():
-            #use try here very important:
+            
             totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
             Sum('payable_loan'))['payable_loan__sum']
             totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
@@ -117,7 +118,6 @@ def LoanPayment(request):
     if request.method == 'POST':
         form = LoanTransactionForm(request.POST)
         if form.is_valid():
-            #amount=int(request.POST.get('payment'))
             payment = form.save(commit=False)
             payment.customer = request.user
             payment.save() 
