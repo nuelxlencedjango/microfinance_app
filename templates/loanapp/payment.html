@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
 
@@ -7,9 +7,21 @@ User Login
 {% endblock %}
 
 
-{% block body_block %}
+{% block content %}
 
-{% include 'navbar.html' %}
+
+
+<div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>payment page</h1>
+         <span>{{ user.first_name }} {{user.last_name}}'s</span>
+         
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="container my-5">
 
     <div class="row">
@@ -45,6 +57,6 @@ User Login
 
 
 
-{% include "footer.html" %}
+
 
 {% endblock %}

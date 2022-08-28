@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
 
@@ -7,10 +7,25 @@ Loan Request
 {% endblock %}
 
 
-{% block body_block %}
+{% block content %}
+<style>
+      .page-heading{
+        height: 30px !important;
+    }
+</style>
 
-{% include 'navbar.html' %}
-
+<div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>{{ user.first_name }} {{user.last_name}}</h1>
+          <span>Request Page</span>
+         
+         
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -82,6 +97,6 @@ Loan Request
 
 </div>
 
-{% include "footer.html" %}
+
 
 {% endblock %}

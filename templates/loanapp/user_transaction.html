@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 
 {% load static %}
 
@@ -11,42 +11,56 @@
     .main-section {
         margin-bottom: 500px;
     }
+    .page-heading{
+        height: 30px !important;
+    }
 </style>
 
 {% endblock %}
 
-{% block body_block %}
-
-{% include 'navbar.html' %}
+{% block content %}
 
 
-{% for message in messages %}
-<p id="messages">{{ message }}</p>
-{% endfor %}
 
 
+
+<div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Payment Transaction</h1>
+          <span>{{ user.first_name }} {{user.last_name}}</span>
+         
+         
+             {% if messages %}
+             {% for message in messages %}
+             <p id="messages">{{ message }}</p>
+             {% endfor %}
+             {% else %}
+             {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
 
 <div class="container my-5 ">
-    <h1 class="text-center text-primary">My Payment Transaction</h1>
+    <!--<h1 class="text-center text-primary">My Payment Transaction</h1>-->
     <div class="my-5 users main-section">
 
 
 
         <table class="table text-center table-light table-hover table-bordered table-striped">
-            <thead class="bg-dark ">
+            <thead class="bg-light ">
                 <tr class="text-dark ">
                     <th scope="col">SL</th>
 
                     <th scope="col">User ID</th>
-                    <th scope="col">Full Name</th>
+                 
                     <th scope="col">Date Of Payment</th>
                     <th scope="col">Payment ID</th>
                     <!--<th scope="col">Approved Date</th>-->
                     <th scope="col">Amount Paid</th>
    
-                    <!--<th scope="col">Approved Loan</th>
-                    <th scope="col">Amount Payable</th>
-                    <th scope="col">Balance</th>-->
 
 
                 </tr>
@@ -58,7 +72,7 @@
                     <th scope="row">{{forloop.counter}}</th>
 
                     <td>{{loan.customer.id}}</td>
-                    <td>{{loan.customer.first_name}} {{loan.customer.last_name}}</td>
+                  
                     <td>{{loan.payment_date}}</td>
                     <td>{{loan.transaction_id}}</td>
                     <td>#{{loan.payment}}</td>
@@ -94,6 +108,6 @@
 
 </div>
 
-{% include 'footer.html' %}
+
 
 {% endblock %}
