@@ -1,4 +1,4 @@
-{% extends 'admin/adminbase.html' %}
+{% extends 'new/general/base.html' %}
 
 {% load static %}
 
@@ -24,8 +24,17 @@
 
 {% endblock %}
 
-{% block body_block %}
+<style>
+    .height-100 {
+     display: none !important;
+ }
+ .navbar-expand-lg{
+   display: none !important;
+ }
+</style>
 
+{% block content %}
+{% include 'admin/adminbase.html' %}
 <div class="container">
    
     <h1 class="text-center text-primary">{{user.first_name}} &nbsp; {{user.last_name}}</h1>

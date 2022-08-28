@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard ooooooooo</title>
     {% block block_js %}
 
     {% endblock %}
@@ -82,9 +82,12 @@
                         <a href="{% url 'adminManager:add_category' %}" class="nav_link">
                             <span class="iconify" data-icon="bx:bxs-category" data-width="30" data-height="30"></span>
                             <span class="nav_name">Add Category</span> </a>
+
+                        <a href="{% url 'account:logout_customer' %}" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span
+                            class="nav_name">SignOut</span> </a>     
                     </div>
-                </div> <a href="{% url 'account:logout_customer' %}" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span
-                        class="nav_name">SignOut</span> </a>
+                </div>
+                        
             </nav>
         </div>
         <!--Container Main start-->

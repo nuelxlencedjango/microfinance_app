@@ -110,26 +110,26 @@ https://templatemo.com/tm-545-finance-business
 
 
               {% if user.is_authenticated %}
-              <li><a class="nav-link" href="{% url 'loanApp:user_dashboard' %}">Dashboard</a>
+              <li class="nav-item chk"><a class="nav-link" href="{% url 'loanApp:user_dashboard' %}">Dashboard</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item chk">
                   <a class="nav-link" href="{% url 'loanApp:user_loan_history' %}">Loan History</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item chk">
                   <a class="nav-link" href="{% url 'loanApp:loan_payment' %}">Pay Loan</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item chk">
                   <a class="nav-link" href="{% url 'loanApp:user_transaction' %}">Transactions</a>
               </li>
               
-              <li>
+              <li class="nav-item chk">
                 <a class="nav-link" href="{% url 'loanApp:loan_request'%}">Apply For A Loan</a>
             </li>
-            <li>
+            <li class="nav-item chk">
                 <a class="nav-link" href="{% url 'account:edit-customer'%}">Update Info</a>
             </li>
 
-            <li>
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'account:logout_customer' %}">Logout</a>
             </li>
               {% else %}
@@ -137,7 +137,7 @@ https://templatemo.com/tm-545-finance-business
                     <b> <a class="nav-link" href="{% url 'account:login_customer' %}">Login</a></b>
 
 
-                </li>
+                </li class="nav-item">
                 <li class="nav-item">
                     <b> <a class="nav-link" href="/account/signup-customer">Signup</a></b>
                 </li>

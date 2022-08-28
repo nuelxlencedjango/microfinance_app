@@ -1,4 +1,4 @@
-{% extends 'admin/adminbase.html' %}
+{% extends 'new/general/base.html' %}
 
 {% load static %}
 
@@ -15,7 +15,8 @@
 
 {% endblock %}
 
-{% block body_block %}
+{% block content %}
+{% include 'admin/adminbase.html' %}
 
 
 
@@ -72,118 +73,7 @@ header{
     justify-content: space-between;
     padding: 2rem 9%;
 }
-/*header .logo{
-    font-size: 2.5rem;
-    font-weight: bolder;
-    color: #fff;
-    text-transform: uppercase;
-}
-header .logo span{
-    color: var(--orange);
-}
-header .navbar a{
-    color: #fff;
-    font-size: 2rem;
-    margin:0 .8rem;
-}
-header .navbar a:hover{
-    color: var(--orange);
-}
-header .icons i{
-    font-size: 2.5rem;
-    color: #fff;
-    cursor: pointer;
-    margin-right: 2rem;
-}
-header .search-bar-container{
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: #333;
-    padding: 1.5rem 2rem;
-    border-top: .1rem solid rgba(255, 255, 255, .2);
-    display: flex;
-    align-items: center;
-    z-index: 10001;
-    clip-path: polygon(0 0), 100% 0, 0 0;
-    width: 700px;
-  
-}
-header .search-bar-container #search-bar{
-    width: 100%;
-    padding: 1rem;
-    text-transform: none;
-    color: #333;
-    font-size: 1.7rem;
-    border-radius: .5rem;
-}
-header .search-bar-container label{
-    color: #fff;
-    cursor: pointer;
-    font-size: 3rem;
-    margin-left: 1.5rem;
-}
-header .search-bar-container label:hover{
-    color: var(--orange);
-}
 
-header .search-bar-container .active{
-    clip-path: polygon(0 0,100% 0.100% 0, 0 0);
-}
-.login-form-container{
-    position: fixed;
-    top: -120%;
-    left: 0;
-    z-index: 10000;
-    min-height: 100vh;
-    width: 100%;
-    background: rgba(0, 0, 0, .7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.login-form-container form{
-    margin: 2rem;
-    padding: 1.5rem 2rem;
-    border-radius: .5rem;
-    background: #fff;
-    width: 50rem;
-}
-.login-form-container form h3{
-    font-size: 3rem;
-    color: #444;
-    text-transform: unset;
-    text-align: center;
-}
-.login-form-container form .box{
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.7rem;
-    color: #333;
-    margin: 5rem 0;
-    border: 1rem solid rgba(0, 0, 0, .3);
-    text-transform: none;
-}
-.login-form-container form .box:focus{
-    border-color: var(--orange);
-}
-.login-form-container form #remember{
-    margin: 2rem 0
-}
-.login-form-container form label{
-    font-size: 1.5rem;
-}
-.btn{
-    display: inline-block;
-    margin-top: 1rem;
-    background: var(--orange);
-    color: #fff;
-    padding: .8rem 3rem;
-    border: .2rem solid var(--orange);
-    cursor: pointer;
-    font-size: 1.7rem;
-}*/
 .container-fluid{
   align-items: center;
   margin-top: 20px;
@@ -197,6 +87,19 @@ header .search-bar-container .active{
    
     font-size: 18px;
 }
+
+
+
+
+.height-100 {
+     display: none !important;
+ }
+ header{
+    display: none;
+ }
+ footer{
+    margin-top: 70px;
+ }
     </style>
 
 
@@ -220,7 +123,7 @@ header .search-bar-container .active{
             <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
 
-           <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+           <!--<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>-->
           </form>
           <!--<i class="fas fa-bars"></i>-->
         </div>

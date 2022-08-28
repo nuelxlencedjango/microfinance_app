@@ -1,10 +1,7 @@
-{% extends 'admin/adminbase.html' %}
+{% extends 'new/general/base.html' %}
+
 
 {% load static %}
-
-
-
-
 
 {% block css_block %}
 <style>
@@ -13,8 +10,16 @@
 
 {% endblock %}
 
-{% block body_block %}
-
+{% block content %}
+<style>
+    .height-100 {
+     display: none !important;
+ }
+ .navbar-expand-lg{
+   display: none !important;
+ }
+</style>
+{% include 'admin/adminbase.html' %}
 <div class="container">
     <h1 class="text-center text-primary">Approved Loan</h1>
     <div class="users my-5">
@@ -26,15 +31,15 @@
                 <tr class="text-dark ">
                     <th scope="col">SL</th>
                     <th scope="col">Loan ID</th>
-                    <th scope="col">User ID</th>
-                    <th scope="col">Username</th>
+                    <!--<th scope="col">User ID</th>-->
+                    <th scope="col">First Name</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Category</th>
+                    <!--<th scope="col">Category</th>-->
                     <th scope="col">Amount</th>
-                    <th scope="col">Request Date</th>
+                    <!--<th scope="col">Request Date</th>-->
                     <th scope="col">Approved Date</th>
                     <th scope="col">expected Return</th>
-                    <!--<th scope="col">Gross Income</th>-->
+                  
                   
 
 
@@ -46,18 +51,17 @@
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
                     <td>{{loan.id}}</td>
-                    <td>{{loan.customer.id}}</td>
+                    <!--<td>{{loan.customer.id}}</td>-->
                     <td>{{loan}}</td>
                     <td>
                         <button type="button" class="btn btn-info text-white btn-sm px-3">
                             {{loan.status}}
                         </button>
                     </td>
-                    <!-- <td> <img src="/media/{{user.profile_picture}}" alt="Profile Pic" height="40px" width="40px" />
-                    </td> -->
-                    <td>{{loan.category}}</td>
+                 
+                    <!--<td>{{loan.category}}</td>-->
                     <td>₦ {{loan.amount}} </td>
-                    <td>{{loan.request_date}}</td>
+                    <!--<td>{{loan.request_date}}</td>-->
                     <td>{{loan.status_date}}</td>
 
                 

@@ -1309,6 +1309,29 @@ footer .contact-form button.filled-button:hover {
 		margin-bottom: 30px;
 	}
 }
+@media (max-width:530px) {
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
+	width: 100%;
+    padding-right: 2px;
+    padding-left: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+  
+    margin-right: 0;
+    
+}
+} 
+@media (max-width:450px) {
+	.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+		width: 100%;
+    padding-right: 5px !important;
+    padding-left: 0px !important;
+    margin-right: auto;
+    margin-left: 0px !important;
+	}
+	
+}
+	
 
 @media (max-width: 992px) {
 	.navbar .navbar-brand {

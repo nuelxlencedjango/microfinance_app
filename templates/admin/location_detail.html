@@ -1,5 +1,5 @@
 
-{% extends 'admin/adminbase.html' %}
+{% extends 'new/general/base.html' %}
 
 {% load static %}
 
@@ -25,10 +25,20 @@
 
 {% endblock %}
 
-{% block body_block %}
+{% block content %}
+<style>
+    .height-100 {
+     display: none !important;
+ }
+ .navbar-expand-lg{
+   display: none !important;
+ }
+ footer{
+    margin-top: 100px;
+ }
+</style>
 
-
-
+{% include 'admin/adminbase.html' %}
 
 {% if  location %}
 <div class="container">
@@ -172,31 +182,11 @@
 
             </div>
 
-            <!--<div class="col-md-2">
-                <table class="table table-light table-hover table-bordered table-striped text-center">
-                    <thead class="bg-dark ">
-                        <tr class="text-dark ">
-                         
-                            <th scope="col">Profit</th>
-                        </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for grossP in profit %}
-                    <tr>
-                      
-                        <td>{{grossP}}</td>
-                    </tr>
-                    {% endfor %}
-                
-                </tbody>
-                </table>
+         
 
               
 
-            </div>-->
+            </div>
           
         </div>
      </div>

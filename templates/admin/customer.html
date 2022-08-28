@@ -1,4 +1,5 @@
-{% extends 'admin/adminbase.html' %}
+
+{% extends 'new/general/base.html' %}
 
 {% load static %}
 
@@ -17,12 +18,19 @@
 
 {% endblock %}
 
-{% block body_block %}
+{% block content %}
 
-
-
+{% include 'admin/adminbase.html' %}
+<style>
+    .height-100 {
+      display: none !important;
+  }
+  .navbar-expand-lg{
+    display: none;
+  }
+  </style>
 <div class="container">
-    <h1 class="text-center text-primary">Total Customer Loan Management Application</h1>
+    <h1 class="text-center text-primary">All Customers</h1>
     <div class="users my-5">
 
 
@@ -32,10 +40,13 @@
                 <tr class="text-dark ">
                     <th scope="col">SL</th>
                     <th scope="col">User ID</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Picture</th>
+
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
+
+                    <!--<th scope="col">Username</th>-->
+                    <th scope="col">Picture</th>
+                  
                     <th scope="col">Email</th>
                     <!--<th>Action</th>-->
 
@@ -49,15 +60,15 @@
                     <th scope="row">{{forloop.counter}}</th>
                     <td>{{user.id}}</td>
                   
-                    <td><a href="{% url 'adminManager:user_details' user.pk %}">{{user}}</a></td>
+                    <!--<td><a href="{% url 'adminManager:user_details' user.pk %}">{{user}}</a></td>-->
               
 
+                    <td><a href="{% url 'adminManager:user_details' user.pk %}">{{user.first_name}}</a></td>
+                    <td>{{user.last_name}}</td>
                     <td> <img src="{{ user.customer_info.profile_img.url }}" alt="Profile Pic" height="40px" width="40px" />
                     </td>
                 
 
-                    <td>{{user.first_name}}</td>
-                    <td>{{user.last_name}}</td>
                     <td>{{user.email}}</td>
                 
 
