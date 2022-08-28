@@ -2,6 +2,7 @@
 
 {% load static %}
 
+
 {% block css_block %}
 <style>
 
@@ -21,7 +22,7 @@
 {% include 'admin/adminbase.html' %}
 
 <div class="container">
-    <h1 class="text-center text-primary">Transaction Loan</h1>
+    <h1 class="text-center text-primary">All Transaction Payment</h1>
     <div class="my-5 users">
 
 
@@ -50,14 +51,14 @@
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
 
-                   
-                    <td>{{loan.customer.user.first_name}}</td>
-                    <td>{{loan.customer.user.last_name}}</td>
+                    <!--<td>{{loan.customer.id}}</td>-->
+                    <td>{{loan.customer.first_name}}</td>
+                    <td>{{loan.customer.last_name}}</td>
 
                     <td>₦{{loan.payment}} </td>
-                    <td>{{loan.transaction}}</td>
+                    <td>{{loan.transaction_id}}</td>
                     <td>{{loan.payment_date}}</td>
-                    <td>{{loan.customer.user.email}}</td>
+                   
 
 
                 </tr>

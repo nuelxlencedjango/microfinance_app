@@ -173,7 +173,7 @@ class loanTransaction(models.Model):
     payment = models.PositiveIntegerField(default=0)
     payment_date = models.DateField(auto_now_add=True)
     balance =models.PositiveIntegerField(default=0)
-    #dateof_payment = models.DateTimeField(auto_now=True)
+    
 
     total_payment =models.PositiveIntegerField(default=0)
      

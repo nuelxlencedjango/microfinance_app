@@ -99,7 +99,7 @@ def dashboard(request):
     #def check_due_date():
     all_customer =CustomerLoan.objects.all()
     for name in all_customer:
-        if int(datetime.now().strftime("%s")) >= int(name.mydate.strftime("%s")):
+        if int(datetime.now().strftime("%s")) == int(name.mydate.strftime("%s")):
             amount_payable = CustomerLoan.objects.filter(customer=name.customer)#,payable_loan=name.payable_loan)
             #amount_paid = CustomerLoan.objects.filter(customer=name.customer,total_amount_paid=name.total_amount_paid)
 
@@ -121,7 +121,7 @@ def dashboard(request):
                     CustomerLoan.objects.filter(customer=name.customer).update(payment ="Not owing any amount") 
 
         else:
-            
+
             mydate =int(name.mydate.strftime("%s")) - int(datetime.now().strftime("%s"))
             
             print(mydate,'days remaining')
