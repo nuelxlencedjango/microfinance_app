@@ -50,7 +50,7 @@ def sign_up_view(request):
     return render(request, 'loginApp/signup.html', context={'form': form,  'user': "Customer Register", 'error': error})
 
 
-         
+
 
 
 

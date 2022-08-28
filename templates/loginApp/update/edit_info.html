@@ -1,11 +1,29 @@
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
-{% block body_block %}
+{% block content %}
 
 
-{% include 'navbar.html' %}
 
+
+
+
+<style>
+    .page-heading{
+        height: 30px;
+    }
+  
+  </style>
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>update Personal Information</h1>
+          <span>update your Information below</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <div class="container" style="margin-top: 100px;">
@@ -24,5 +42,5 @@
 
 </div>
 
-{% include 'footer.html' %}
+
 {% endblock %}

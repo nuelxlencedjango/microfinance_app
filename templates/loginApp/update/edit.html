@@ -1,12 +1,28 @@
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
-{% block body_block %}
+{% block content %}
 
 
-{% include 'navbar.html' %}
 
 
+
+<style>
+    .page-heading{
+        height: 30px;
+    }
+  
+  </style>
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>update page</h1>
+          <span>update your Information below</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <div class="container my-5">
 
@@ -17,7 +33,7 @@
             <h3 class="text-center text-success">Update Your Information </h3>
             <form method="POST" class="my-5" enctype="multipart/form-data">
                 {% csrf_token %}
-                <!-- 2 column grid layout with text inputs for the first and last names -->
+             
                 <div class="mb-4 row">
                     <div class="col">
                         <div class="form-outline">
@@ -41,7 +57,7 @@
                 <!-- Image Field  Input-->
                 <div class="mb-4 form-outline">
                     {% render_field form2.profile_img type="file" class="form-control" %}
-                    <!-- <input  class="form-control" id="customFile" /> -->
+                   
                 </div>
 
 
@@ -119,5 +135,4 @@
 
 
 
-{% include 'footer.html' %}
 {% endblock %}

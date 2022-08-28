@@ -121,7 +121,9 @@ def dashboard(request):
                     CustomerLoan.objects.filter(customer=name.customer).update(payment ="Not owing any amount") 
 
         else:
-            mydate =name.mydate - datetime.now()
+            
+            mydate =int(name.mydate.strftime("%s")) - int(datetime.now().strftime("%s"))
+            
             print(mydate,'days remaining')
 
 
