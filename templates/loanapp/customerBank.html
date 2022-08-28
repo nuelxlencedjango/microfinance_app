@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'new/general/base.html' %}
 
 {% block content %}
 
@@ -12,13 +12,29 @@
 {% block css_block %}{% endblock %}
 
 
-{% block body_block %}{% endblock %}
 
-{% include 'navbar.html' %}
+<style>
+    .page-heading{
+      height: 30px !important;
+  }
+</style>
 
 
 
 
+
+
+<div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>customer bank information</h1>
+         <span>{{ user.first_name }} {{user.last_name}}'s</span>
+         
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -27,7 +43,7 @@
    
     <div class="row">
         <div class="p-5 m-auto rounded shadow-lg col-md-5 bg-body">
-            <h3 class="text-center text-success">{{user}},Please complete your bank information</h3>
+            <h3 class="text-center text-success">Please complete your bank information</h3>
               
                 <form action="{% url 'loanApp:user-bank' %}" method="POST" enctype="multipart/form-data">
                 {% if err %}
@@ -58,21 +74,7 @@
                     <label class="form-label">Account Number</label>
                 </div>
                   
-                <!--<div class="mb-4 form-outline">
-
-                    {% render_field form.nin|attr:'required:false'  class="form-control" %}
-                    <label class="form-label">NIN</label>
-                </div>
-                <div class="mb-4 form-outline">
-
-                    {% render_field form.bvn|attr:'required:false'  class="form-control" %}
-                    <label class="form-label">BVN</label>
-                </div>
-                <div class="mb-4 form-outline">
-
-                    {% render_field form.card_no|attr:'required:false' class="form-control" %}
-                    <label class="form-label">Card Number</label>
-                </div>-->
+              
                 <div class="mb-4 form-outline">
 
                     {% render_field form.next_of_kin|attr:'required:true' class="form-control" %}
@@ -142,6 +144,6 @@
 
 
 
-{% include "footer.html" %}
+
 
 {% endblock %}
