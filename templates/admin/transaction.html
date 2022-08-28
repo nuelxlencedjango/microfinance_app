@@ -50,8 +50,9 @@
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
 
-                    <!--<td>{{loan.customer.id}}</td>-->
-                    <td>{{loan.customer}}</td>
+                   
+                    <td>{{loan.customer.user.first_name}}</td>
+                    <td>{{loan.customer.user.last_name}}</td>
 
                     <td>₦{{loan.payment}} </td>
                     <td>{{loan.transaction}}</td>
