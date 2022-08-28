@@ -24,7 +24,4 @@ urlpatterns = [
     path('locations/', views.getLocation, name='locations'),
     path('search_location/', views.searchLocation, name='search_location'),
      path('search_results/', SearchResultsView.as_view(), name='search_results'),
-
-
 ]
-
