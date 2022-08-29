@@ -42,9 +42,9 @@ print('secret key:',SECRET_KEY)
 #DEBUG = config('DEBUG',cast=bool)
 DEBUG = os.environ.get('DEBUG')
 print('debug:',DEBUG)
-ALLOWED_HOSTS = ['financialbank.herokuapp.com',]
-if not DEBUG:
-    ALLOWED_HOSTS +=[os.environ.get('ALLOWED_HOST')]
+ALLOWED_HOSTS = ['financialbank.herokuapp.com','127.0.0.1']
+#if not DEBUG:
+ #   ALLOWED_HOSTS +=[os.environ.get('ALLOWED_HOST')]
 
 
 # Application definition
