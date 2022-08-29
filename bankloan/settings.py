@@ -193,7 +193,7 @@ django_heroku.settings(locals())
 
     #EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER ='icanwork51@gmail.com'
+EMAIL_HOST_USER =''
 EMAIL_HOST_PASSWORD  = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -214,4 +214,3 @@ CELERY_CACHE_BACKEND ='django-cache'
   #  SECURE_SSL_REDIRECT =True
    # DEBUG = False
 
-   
