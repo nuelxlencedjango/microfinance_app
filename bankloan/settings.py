@@ -119,11 +119,11 @@ WSGI_APPLICATION = 'bankloan.wsgi.application'
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  'd1bkmlh88laro4',
-        'HOST' :'ec2-44-206-197-71.compute-1.amazonaws.com',
-        'PORT':5432,
-        'USER' :'qmqywzrclqsbbf',
-        'PASSWORD' :'c68e8fd8bcc32bba7d054aca8a8bcba46a59a710ba74dfb8ffee048fa7bc035e',
+        'NAME': os.environ.get('DATABASE_NAME'),#'d1bkmlh88laro4',
+        'HOST' :os.environ.get('DATABASE_HOST'),#'ec2-44-206-197-71.compute-1.amazonaws.com',
+        'PORT':os.environ.get('DATABASE_PORT'),#5432,
+        'USER' :os.environ.get('DATABASE_USER'),#'qmqywzrclqsbbf',
+        'PASSWORD' :os.environ.get('DATABASE_PASSWORD'),#'c68e8fd8bcc32bba7d054aca8a8bcba46a59a710ba74dfb8ffee048fa7bc035e',
 
     }
 }
