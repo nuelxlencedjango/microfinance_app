@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 import os 
 import dj_database_url
@@ -31,11 +32,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=x6!qx0qc2vr(s@2r_v6st18fb@d&i!(m%k+a9)mg2xoj-8kt9'
+#SECRET_KEY = 'django-insecure-=x6!qx0qc2vr(s@2r_v6st18fb@d&i!(m%k+a9)mg2xoj-8kt9'
+SECRET_KEY = config('SECRET_KEY')
+print('secret key:',SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+#DEBUG = True
+DEBUG = config('DEBUG',cast=bool)
+print('debug:',DEBUG)
 ALLOWED_HOSTS = ['financialbank.herokuapp.com','127.0.0.1']
 
 
@@ -61,6 +65,7 @@ INSTALLED_APPS = [
      'mathfilters',
      'django_celery_results',
      'django_celery_beat',
+     'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -199,3 +204,11 @@ CELERY_CACHE_BACKEND ='django-cache'
 # Celery settings
 #CELERY_BROKER_URL = "redis://localhost:6379"
 #CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+
+
+
+if os.getcwd() == '/app':
+    SECURE_PROXY_SSL_HEADER =('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT =True
+    DEBUG = False
