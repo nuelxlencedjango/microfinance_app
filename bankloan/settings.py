@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
+#from decouple import config
 
 import os 
 import dj_database_url
@@ -33,14 +33,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = 'django-insecure-=x6!qx0qc2vr(s@2r_v6st18fb@d&i!(m%k+a9)mg2xoj-8kt9'
-SECRET_KEY=config('SECRET_KEY')
+#SECRET_KEY= config('SECRET_KEY')
+SECRET_KEY=os.environ.get('SECRET_KEY')
 print('secret key:',SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = config('DEBUG',cast=bool)
+#DEBUG = config('DEBUG',cast=bool)
+DEBUG = os.environ.get('DEBUG')
 print('debug:',DEBUG)
-ALLOWED_HOSTS = ['financialbank.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['financialbank.herokuapp.com',]
+if not DEBUG:
+    ALLOWED_HOSTS +=[os.environ.get('ALLOWED_HOST')]
 
 
 # Application definition
@@ -65,7 +69,7 @@ INSTALLED_APPS = [
      'mathfilters',
      'django_celery_results',
      'django_celery_beat',
-     'django_extensions',
+     #'django_extensions',
 ]
 
 MIDDLEWARE = [
