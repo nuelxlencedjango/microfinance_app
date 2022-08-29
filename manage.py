@@ -3,15 +3,16 @@
 import os
 import sys
 import dotenv
-import pathlib
+#import pathlib
 
 
 def main():
     """Run administrative tasks."""
-    DOT_ENV_PATH =pathlib.Path() / '.env'
-    if DOT_ENV_PATH.exists():
-        dotenv.read_dotenv(str(DOT_ENV_PATH))
+    #DOT_ENV_PATH =pathlib.Path() / '.env'
+    #if DOT_ENV_PATH.exists():
+        #dotenv.read_dotenv(str(DOT_ENV_PATH))
         
+    dotenv.read_dotenv()
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bankloan.settings')
     try:
         from django.core.management import execute_from_command_line
