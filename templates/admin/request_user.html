@@ -40,16 +40,15 @@
             <thead class="bg-dark ">
                 <tr class="text-dark ">
                     <th scope="col">SL</th>
-                    <th scope="col">Loan ID</th>
+                  
                     <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
+                  
                     <th scope="col">Request Date</th>
                     <th scope="col">Status</th>
                     <!--<th scope="col">Category</th>-->
                     <th scope="col">Request Amount</th>
-                    <!--<th scope="col">Request Date</th>
-               
-                    <th scope="col">Email</th>-->
+                    <th scope="col">Action</th>
+            
                   
 
                 </tr>
@@ -59,11 +58,10 @@
 
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td>{{loan.id}}</td>
-                    <!--<td>{{loan.customer.id}}</td>-->
-                    <td>{{loan}}</td>
-                    <td>{{loan.customer.user.first_name}}</td>
-                    <td>{{loan.customer.user.last_name}}</td>
+               
+                  
+                    <td>{{loan.customer.first_name}}</td>
+                  
                     <td>{{loan.request_date}}</td>
                     <td>
                         <button type="button" class="btn btn-info text-white btn-sm px-3">
@@ -72,10 +70,8 @@
                     </td>
                    
                     <!--<td>{{loan.category}}</td>-->
-                    <td># {{loan.amount}} </td>
-                    <
-                   
-                    <!--<td>{{loan.customer.user.email}}</td>-->
+                    <td>₦ {{loan.amount}} </td>
+                  
 
                     
                     <td>

@@ -103,7 +103,7 @@ class CustomerLoan(models.Model):
 
     def save(self):
         from datetime import datetime, timedelta
-        due_date = timedelta(days=1)
+        due_date = timedelta(days=30)
 
         # only add 30 days if it's the first time the model is saved
         if not self.id:
