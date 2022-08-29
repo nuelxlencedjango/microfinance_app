@@ -170,8 +170,6 @@ MEDIA_URL ='/media/'
 MEDIA_ROOT =os.path.join(BASE_DIR ,'media/')
 
 
-
-
 cloudinary.config( 
   cloud_name = "dihjcmvi3", 
   api_key = 719413493487441, 
@@ -204,7 +202,6 @@ CELERY_CACHE_BACKEND ='django-cache'
 # Celery settings
 #CELERY_BROKER_URL = "redis://localhost:6379"
 #CELERY_RESULT_BACKEND = "redis://localhost:6379"
-
 
 
 
