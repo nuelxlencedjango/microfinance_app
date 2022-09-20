@@ -181,3 +181,13 @@ a {
         padding-left: calc(var(--nav-width) + 188px)
     }
 }
+
+@media (max-width: 450px){
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    width: 100%;
+    padding-right: 5px !important;
+    padding-left: 0px !important;
+    margin-right: auto;
+    margin-left: 15px !important;
+}
+}
