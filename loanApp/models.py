@@ -16,16 +16,6 @@ import uuid
 
 
 
-#from django.utils import timezone timezone.now()
-#import datetime
-#import time
-#import tzlocal
-#import pytz
-
-#utc=pytz.UTC
-# Create your models here.
-
-
 
 
 class CustomerBank(models.Model):
@@ -33,9 +23,6 @@ class CustomerBank(models.Model):
 
     bank_name =models.CharField(max_length=250,null=True,blank=True)
     account_no = models.CharField(max_length=14, null=True,blank=True,unique=True)
-    #nin  = models.CharField(max_length=11, null=True,blank=True,unique=True)
-    #bvn  = models.CharField(max_length=11, null=True,blank=True,unique=True)
-    #account_type = models.CharField(max_length=50, null=True,blank=True,unique=True)
     card_no = models.CharField(max_length=50, null=True,blank=True,unique=True)
     next_of_kin = models.CharField(max_length=200, null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -45,10 +32,8 @@ class CustomerBank(models.Model):
 
 
 
-
 class loanCategory(models.Model):
     loan_type = models.CharField(max_length=250)
-    #date_requested = models.DateField(auto_now_add=True)
     date_approved =  models.DateTimeField(auto_now=True)
     updated_date = models.DateTimeField(auto_now=True)
 

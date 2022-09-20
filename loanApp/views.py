@@ -18,10 +18,8 @@ from django.db.models import Sum
 # Create your views here.
 
 
-# @login_required(login_url='/account/login-customer')
+
 def home(request):
-   
-    
     present = datetime.now()+timedelta(days=30)
     today = datetime.now()
 
@@ -30,12 +28,10 @@ def home(request):
         tr =loanTransaction.objects.filter(customer=request.user)
         for bal in abb:
             pass
-            #a=bal.get_dattime()
-     
         return render(request, 'new/general/index.html', context={'abb':abb})
-        #return render(request, 'home.html', context={'abb':abb})#'a':a})
+      
     return render(request, 'new/general/index.html', context={'present':present,'today':today})
-    #return render(request, 'home.html', context={'present':present,'today':today})
+   
 
 
 
@@ -67,11 +63,9 @@ def LoanRequest(request):
             
             return render(request, 'loanapp/loanrequest.html', context={'form': form})  
 
-
         messages.warning(request, 'Please start making payment so you can request for another')
         return redirect('loanApp:user_dashboard') 
             
-    
     
     elif CustomerInfo.objects.filter(user=request.user).exists() and CustomerBank.objects.filter(user=request.user):
 

@@ -24,8 +24,7 @@ def sign_up_view(request):
     form = SignUpForm()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        #form2 = CustomerDetailsForm(request.FILES, request.POST)
-       # print(form.cleaned_data['username'])
+        
         if form.is_valid(): #and form2.is_valid():
             user = form.save()
             user.save()         

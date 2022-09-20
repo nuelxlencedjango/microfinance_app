@@ -103,27 +103,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bankloan.wsgi.application'
 
 
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-#DATABASES = {
-    #'default': {
-     #   'ENGINE': 'django.db.backends.postgresql',
-     #   'NAME': 'bank',
-     #   'USER' : 'postgres',
-     #   'PASSWORD' :'admin',
-     #   'HOST': 'localhost'
-   # }
-#}
-
 
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'),#'d1bkmlh88laro4',
-        'HOST' :os.environ.get('DATABASE_HOST'),#'ec2-44-206-197-71.compute-1.amazonaws.com',
-        'PORT':os.environ.get('DATABASE_PORT'),#5432,
-        'USER' :os.environ.get('DATABASE_USER'),#'qmqywzrclqsbbf',
-        'PASSWORD' :os.environ.get('DATABASE_PASSWORD'),#'c68e8fd8bcc32bba7d054aca8a8bcba46a59a710ba74dfb8ffee048fa7bc035e',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'HOST' :os.environ.get('DATABASE_HOST'),
+        'PORT':os.environ.get('DATABASE_PORT'),
+        'USER' :os.environ.get('DATABASE_USER'),
+        'PASSWORD' :os.environ.get('DATABASE_PASSWORD'),
 
     }
 }
@@ -175,9 +163,9 @@ MEDIA_ROOT =os.path.join(BASE_DIR ,'media/')
 
 
 cloudinary.config( 
-  cloud_name = "dihjcmvi3", 
-  api_key = 719413493487441, 
-  api_secret = "OdUEmhlZnR8xNsGrvTwh7RkPVL4" 
+  cloud_name=os.environ.get('CLOUD_NAME'),
+  api_key=os.environ.get('API_KEY'), 
+  api_secret=os.environ.get('API_SECRET'), 
 )
 
 
@@ -214,3 +202,17 @@ CELERY_CACHE_BACKEND ='django-cache'
   #  SECURE_SSL_REDIRECT =True
    # DEBUG = False
 
+
+
+#ADMINS = (('username', 'realmindt@gmail.com'),)
+#MANAGERS = ADMINSEMAIL_HOST = 'host'
+#SEND_BROKEN_LINK_EMAILS=True
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'username'
+#EMAIL_HOST_PASSWORD = 'password'
+#EMAIL_USE_TLS = True
+#SERVER_EMAIL = 'django@my-domain.com'
+#EMAIL_HOST = 'smtp.gmail.com'
+#SERVER_EMAIL = EMAIL_HOST_USER
