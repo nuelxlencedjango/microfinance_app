@@ -33,12 +33,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY=os.environ.get('SECRET_KEY')
+SECRET_KEY='^ff0(cr!y8!levom+3g3=%zp(*nm%t((75tzvi2xyct5w8iw4('
+#os.environ.get('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DEBUG')
+DEBUG = False
+# os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ['financialbank.herokuapp.com','127.0.0.1','www.simsudresources.com','simsudresources.com']
 
@@ -103,11 +105,16 @@ WSGI_APPLICATION = 'bankloan.wsgi.application'
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME'),
-        'HOST' :os.environ.get('DATABASE_HOST'),
-        'PORT':os.environ.get('DATABASE_PORT'),
-        'USER' :os.environ.get('DATABASE_USER'),
-        'PASSWORD' :os.environ.get('DATABASE_PASSWORD'),
+        'NAME': 'd1bkmlh88laro4',
+        #os.environ.get('DATABASE_NAME'),
+        'HOST' :'ec2-44-206-197-71.compute-1.amazonaws.com',
+        #os.environ.get('DATABASE_HOST'),
+        'PORT':5432,
+        #os.environ.get('DATABASE_PORT'),
+        'USER' :'qmqywzrclqsbbf',
+        #os.environ.get('DATABASE_USER'),
+        'PASSWORD' :'c68e8fd8bcc32bba7d054aca8a8bcba46a59a710ba74dfb8ffee048fa7bc035e'
+        #os.environ.get('DATABASE_PASSWORD'),
 
     }
 }
@@ -159,9 +166,9 @@ MEDIA_ROOT =os.path.join(BASE_DIR ,'media/')
 
 
 cloudinary.config( 
-  cloud_name=os.environ.get('CLOUD_NAME'),
-  api_key=os.environ.get('API_KEY'), 
-  api_secret=os.environ.get('API_SECRET'), 
+    cloud_name='dihjcmvi3',
+  api_key='719413493487441',
+  api_secret='OdUEmhlZnR8xNsGrvTwh7RkPVL4' 
 )
 
 

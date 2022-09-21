@@ -58,20 +58,7 @@ def check_due_date():
             mydate =name.mydate - datetime.now()
             print(mydate,'days remaining')
 
-            #totalPayable = CustomerLoan.objects.filter(customer=name.customer,).aggregate(
-            #Sum('payable_loan'))['payable_loan__sum']
-            #totalPaid = loanTransaction.objects.filter(customer=customer).aggregate(Sum('payment'))[
-            #'payment__sum']
-
-    #if datetime.now() >=  CustomerLoan.objects.filter(customer=customer,mydate=mydate):
-        #if int(totalPayable) > int(totalPaid):
-            #new_bal =totalPayable - totalPaid
             
-            #new_bal =totalPayable + (new_bal *10) / 100
-            #mydate = datetime.now() + timedelta(days=2)
-
-            #CustomerLoan.objects.filter(customer=customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal),balance=int(new_bal-totalPaid)) 
-
     
    
 
