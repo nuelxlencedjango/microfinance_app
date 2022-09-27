@@ -193,8 +193,6 @@ def UserDashboard(request):
 
 
 
-
-
 def error_404_view(request, exception):
     print("not found")
     return render(request, 'notFound.html')
