@@ -187,8 +187,6 @@ def UserDashboard(request):
         'totalPayable': totalPayable,
         'totalPaid': totalPaid,
         #'newLoan': newLoan
-       
-
     }
 
     return render(request, 'loanapp/user_dashboard.html', context=dict)
@@ -200,8 +198,6 @@ def UserDashboard(request):
 def error_404_view(request, exception):
     print("not found")
     return render(request, 'notFound.html')
-
-
 
 
 
