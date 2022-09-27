@@ -45,4 +45,6 @@ class UpdateCustomerBankForm(ModelForm):
     class Meta:
         model = CustomerBank
         fields =('bank_name', 'account_no','next_of_kin' )
+      
+        
        
