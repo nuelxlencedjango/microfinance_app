@@ -20,9 +20,11 @@ from django.db.models import Sum
 
 
 def home(request):
+    #getting today's date
     present = datetime.now()+timedelta(days=30)
     today = datetime.now()
-
+    
+    #checking if user is logged in
     if request.user.is_authenticated:
         abb = CustomerLoan.objects.filter(customer=request.user)
         tr =loanTransaction.objects.filter(customer=request.user)
@@ -33,10 +35,11 @@ def home(request):
    
 
 
-
+#login function
 @login_required(login_url='/account/login-customer')
 def LoanRequest(request):
-
+    
+    #check user existence and get user's details
     if CustomerLoan.objects.filter(customer=request.user).exists():
         if loanTransaction.objects.filter(customer = request.user).exists():
             
@@ -44,14 +47,16 @@ def LoanRequest(request):
             Sum('payable_loan'))['payable_loan__sum']
             totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
             'payment__sum']
-
+            #if user is owing,direct to user's dashboard
             if totalPayable > totalPaid:
                 messages.warning(request, 'Please pay up your outstanding balance before you can request for another loan')
                 return redirect('loanApp:user_dashboard') 
             
+            #loan request form if user doesnt owe
             form = LoanRequestForm()
             if request.method == 'POST':
                 form = LoanRequestForm(request.POST)
+                #if data given is valid,save and direct to home page
                 if form.is_valid():
                     loan_obj = form.save(commit=False)
                     loan_obj.customer = request.user
@@ -65,12 +70,13 @@ def LoanRequest(request):
         messages.warning(request, 'Please start making payment so you can request for another')
         return redirect('loanApp:user_dashboard') 
             
-    
+    #if user details are not complete, give form to complete user's form
     elif CustomerInfo.objects.filter(user=request.user).exists() and CustomerBank.objects.filter(user=request.user):
 
         form = LoanRequestForm()
         
         if request.method == 'POST':
+            #if loan reques form is valid,save and redirect to home page
             form = LoanRequestForm(request.POST)
             if form.is_valid():
                 loan_obj = form.save(commit=False)
@@ -82,7 +88,7 @@ def LoanRequest(request):
 
         return render(request, 'loanapp/loanrequest.html', context={'form': form})
 
-
+    #user's details form
     elif  CustomerInfo.objects.filter(user=request.user).exists():
        
         form =CustomerBankForm()
@@ -97,35 +103,40 @@ def LoanRequest(request):
 
 
 
+#login before a user can make payment
 @login_required(login_url='/account/login-customer')
 def LoanPayment(request):
     form = LoanTransactionForm()
     if request.method == 'POST':
         form = LoanTransactionForm(request.POST)
+        #check vaidity of the data given,save if correct
         if form.is_valid():
             payment = form.save(commit=False)
             payment.customer = request.user
             payment.save() 
-
+            
+            #user's loan request and payment
             totalPayable = CustomerLoan.objects.filter(customer=request.user).aggregate(
                 Sum('payable_loan'))['payable_loan__sum']
 
             totalPaid = loanTransaction.objects.filter(customer=request.user).aggregate(Sum('payment'))[
             'payment__sum']
             CustomerLoan.objects.filter(customer=request.user).update(total_amount_paid=totalPaid, balance=int(totalPayable-totalPaid),bal=int(totalPayable-totalPaid))
-
+            
+            #if total amount paid is same as the expected reurns
             if totalPayable == totalPaid:
                 CustomerLoan.objects.filter(customer=request.user).update(payment="Fully paid")
                 
             messages.warning(request,'payment acknowledged ')
             return redirect('/')
-
+         #else send message warning
         messages.warning(request,'Payment not successful')
     return render(request, 'loanApp/payment.html', context={'form': form})
 
 
 
 
+#user should login  to see all transactions
 @login_required(login_url='/account/login-customer')
 def UserTransaction(request):
     if loanTransaction.objects.filter(customer=request.user).exists():
@@ -138,6 +149,7 @@ def UserTransaction(request):
 
 
 
+#user should login  to see all loan requuest and approved loan
 @login_required(login_url='/account/login-customer')
 def UserLoanHistory(request):
     loans = loanRequest.objects.filter(customer=request.user)
@@ -150,7 +162,7 @@ def UserLoanHistory(request):
 
 
 
-
+#user's dashboard.user has to log in to see 
 @login_required(login_url='/account/login-customer')
 def UserDashboard(request):
     requestLoan = loanRequest.objects.filter(customer=request.user).count()
@@ -180,14 +192,14 @@ def UserDashboard(request):
     return render(request, 'loanapp/user_dashboard.html', context=dict)
 
 
-
+#not found page
 def error_404_view(request, exception):
     print("not found")
     return render(request, 'notFound.html')
 
 
 
-
+#user's bank details
 def customerBank(request):
     form = CustomerBankForm()
     if request.method == "POST":
@@ -211,6 +223,7 @@ def customerBank(request):
 
 
 
+#user to edit bank information
 @login_required(login_url='/account/login-customer')
 def edit_bank(request):
     form = UpdateCustomerBankForm(instance=request.user.customer_bank)
@@ -232,17 +245,17 @@ def edit_bank(request):
 
 
 
-
+#about page
 def aboutUs(request):
     return render(request, 'new/general/about.html')
 
 
-
+#types of service page
 def ourServices(request):
     return render(request, 'new/general/services.html')
 
 
-
+#contact page
 def contactUs(request):
     return render(request, 'new/general/contact.html')
 
