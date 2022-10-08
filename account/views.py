@@ -20,21 +20,26 @@ from django.contrib.auth.models import User
 
 #sign up 
 def sign_up_view(request):
+
     error = ''
+    #direct to home if user is logged in
     if request.user.is_authenticated:
 
         return HttpResponseRedirect(reverse('loanApp:home'))
 
     form = SignUpForm()
     if request.method == 'POST':
+        #accepting form 
         form = SignUpForm(request.POST)
         
+        #check form validity
         if form.is_valid(): 
             user = form.save()
             user.save()         
             username = form.cleaned_data.get('username')
             password1 = form.cleaned_data.get('password1')
-      
+            
+            # authenicate the user
             user = authenticate(request, username=username, password=password1)
             if user is not None:
                 login(request, user)
@@ -42,6 +47,7 @@ def sign_up_view(request):
 
             return HttpResponseRedirect(reverse('account:login_customer'))
 
+        #when user information is not valid
         else:
             if User.objects.filter(username=request.POST['username']).exists():
                 error = 'A customer with this username already exists'
@@ -59,24 +65,28 @@ def sign_up_view(request):
 def login_view(request):
     form = CustomerLoginForm()
     if request.method == 'POST':
+        # take input from the user
         form = CustomerLoginForm(data=request.POST)
-      
+       
+       # chck input validity
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-
+            
+            #authenticate username and password
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return HttpResponseRedirect(reverse('loanApp:home'))
 
+        #if not a user,show this page
         else:
             return render(request, 'loginApp/login.html', context={'form': form, 'user': "Customer Login", 'error': 'Invalid username or password'})
     return render(request, 'loginApp/login.html', context={'form': form, 'user': "Customer Login"})
 
 
 
-
+#log out
 @login_required()
 def logout_view(request):
     logout(request)
@@ -87,7 +97,8 @@ def logout_view(request):
 #update
 @login_required(login_url='/account/login-customer')
 def edit_customer(request):
-
+    
+    #take input from the user form
     form = UserUpdateForm(instance=request.user)
     form2 = CustomerInfoForm(instance=request.user.customer_info)
     
@@ -95,13 +106,15 @@ def edit_customer(request):
 
         form = UserUpdateForm(request.POST,  instance = request.user)
         form2 = CustomerInfoForm(request.POST,request.FILES,instance=request.user.customer_info)
-   
+        
+        #if form contents are valid
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
         
             return HttpResponseRedirect(reverse('loanApp:home'))
- 
+        
+        #if not,show this page
         context={'form': form,'form2':form2}
         return render(request, 'loginApp/update/edit.html', context)
 
@@ -111,6 +124,7 @@ def edit_customer(request):
 
 
 
+#user must login before updating 
 @login_required(login_url='/account/login-customer')
 def edit_password(request):
 
@@ -131,18 +145,22 @@ def edit_password(request):
 
 
 
-
+#customer details and bank information
 def customerInfo(request):
     form = CustomerInfoForm()
     if request.method == "POST":
+        #input from users
         form = CustomerInfoForm(request.POST,request.FILES)
-
+        #check if inputs are valid
         if form.is_valid():
             user = request.user
+
+            #attribute the form to the user before saving customer details
             info = form.save(commit=False)
             info.user = user
             info.save()
 
+            #bring bank form after saving customer details
             form =CustomerBankForm()
             context ={'form':form}
 

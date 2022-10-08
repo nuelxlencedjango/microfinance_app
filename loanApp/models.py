@@ -5,13 +5,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from account.models import *
 from django.db.models import Sum
-
+from uuid import uuid4
+from django.utils import timezone
 from datetime import datetime, timedelta, tzinfo
 
 
-
-#from utils import create_new_ref_number
-import random
 import uuid
 
 
@@ -48,7 +46,6 @@ class loanRequest(models.Model):
     status_date = models.CharField(max_length=150, null=True, blank=True, default=None)
     guarantor_name = models.CharField(max_length=100, null=True,blank=True)
     guarantor_no = models.CharField(max_length=15, null=True,blank=True)
-    #reason = models.TextField()
     status = models.CharField(max_length=100, default='pending')
     amount = models.PositiveIntegerField(default=1000)
     days = models.PositiveIntegerField(default=1)
@@ -65,8 +62,6 @@ class loanRequest(models.Model):
         loanRequest.objects.filter(customer=self.customer).update(profit=balance) 
 
         return balance  
-
-
 
 
 
@@ -99,8 +94,9 @@ class CustomerLoan(models.Model):
 
         
 
+
 class MyModel(models.Model):
-    mydate = models.DateTimeField(editable=False) # editable=False to hide in admin
+    mydate = models.DateTimeField(editable=False)
 
     def save(self):
        from datetime import datetime, timedelta
@@ -117,16 +113,21 @@ class MyModel(models.Model):
 class loanTransaction(models.Model):
     customer = models.ForeignKey(User,null=True, on_delete=models.CASCADE, related_name='transaction_customer')
 
-    transaction_id = models.UUIDField(default=uuid.uuid4, editable=False,null=True)
+    #transaction_id = models.UUIDField(default=uuid.uuid4, editable=False,null=True)
+    transactionId = models.CharField(max_length=200, null=True,blank=True)
     payment = models.PositiveIntegerField(default=0)
-    payment_date = models.DateField(auto_now_add=True)
+    payment_date = models.DateField(blank=True, null=True)
     balance =models.PositiveIntegerField(default=0)
     total_payment =models.PositiveIntegerField(default=0)
      
     def __str__(self):
         return self.customer.username
 
+    
+    class Meta:
+      verbose_name_plural='loanTransaction'    
 
+    #update customer's transaction
     def updateBalance(self):      
         totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
         Sum('payable_loan'))['payable_loan__sum']
@@ -137,11 +138,17 @@ class loanTransaction(models.Model):
         CustomerLoan.objects.filter(customer=self.customer).update(total_amount_paid=totalPaid,balance=bal)
 
 
-    class Meta:
-      verbose_name_plural='loanTransaction'
+    # generating transaction id and time
+    def save(self, *args, **kwargs):
+        if self.payment_date is None:
+            self.payment_date = timezone.localtime(timezone.now())
+
+            if self.transactionId is None:
+                self.transactionId = str(uuid4()).split('-')[4]
+   
+            super(loanTransaction, self).save(*args, **kwargs)  
+  
        
 
        
 
-
-      

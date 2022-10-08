@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'account',
     'adminManager',
-    'bank',
+   
     'loanApp',
 
     'crispy_forms',

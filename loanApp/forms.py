@@ -37,7 +37,6 @@ class CustomerBankForm(ModelForm):
  
 
 
-
 class UpdateCustomerBankForm(ModelForm):
     class Meta:
         model = CustomerBank

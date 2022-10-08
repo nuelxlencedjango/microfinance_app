@@ -1,13 +1,12 @@
-from multiprocessing import context
+
 from pyexpat.errors import messages
-from urllib import request
 
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import AdminLoginForm
 
 from django.shortcuts import render ,redirect ,get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
@@ -18,7 +17,6 @@ from loanApp.models import loanCategory, loanRequest, CustomerLoan, loanTransact
 from .forms import LoanCategoryForm
 
 from account.models import *
-from account.models import *
 from django.contrib.auth.models import User
 from django.db.models import Q 
 from datetime import date
@@ -26,34 +24,42 @@ from django.contrib import messages
 from django.db.models import Sum
 
 from django.views.generic import (
-    ListView ,DetailView, CreateView, UpdateView ,DeleteView
-
+    ListView 
 )
 from datetime import datetime, timedelta
 # Create your views here.
-# Create your views here.
 
 
+
+#superuser login
 def superuser_login_view(request):
+
     form = AdminLoginForm()
+    #if alredy logged in,go to home page
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home'))
+
+    #if not logged in yet    
     else:
         if request.method == 'POST':
+            #admin login form
             form = AdminLoginForm(data=request.POST)
-
+            #check data given
             if form.is_valid():
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
-
+                
+                #athenticate the user
                 user = authenticate(request, username=username, password=password)
-
+                
+                #if user exists
                 if user is not None:
-
+                    # check if user is a superuser
                     if user.is_superuser:
                         login(request, user)
                        
                         return HttpResponseRedirect(reverse('adminManager:dashboard'))
+                    #show this page    
                     else:
                         return render(request, 'admin/adminLogin.html', context={'form': form, 'error': "You are not Super User"})
 
@@ -68,6 +74,9 @@ def superuser_login_view(request):
 # @user_passes_test(lambda u: u.is_superuser)
 @staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
+
+    #get number of total users,requested loan,approved loans,rejected loans.total loan given,total reurned amoun
+    # toal amount paid 
     totalCustomer = CustomerInfo.objects.all().count(),
     requestLoan = loanRequest.objects.all().filter(status='pending').count(),
     approved = loanRequest.objects.all().filter(status='approved').count(),
@@ -89,26 +98,32 @@ def dashboard(request):
     }
   
     
-    #def check_due_date():
+    # get list of all customers
     all_customer =CustomerLoan.objects.all()
+    #iterating through the list
     for name in all_customer:
+        #check expected date of payment
         if int(datetime.now().strftime("%s")) == int(name.mydate.strftime("%s")):
-            amount_payable = CustomerLoan.objects.filter(customer=name.customer)#,payable_loan=name.payable_loan)
-
+            amount_payable = CustomerLoan.objects.filter(customer=name.customer)
+           
             for amt in amount_payable:
                 amount = amt.payable_loan
                 amt_paid = amt.total_amount_paid
-            
+                
+                # if there's outstanding
                 if int(amount) > int(amt_paid):
                     new_bal =amount - amt_paid
 
+                   # add 10% to outstanding
                     new_bal = (new_bal *10) / 100
                     mydate = datetime.now() + timedelta(days=1)
-
+                    
+                    #update account
                     CustomerLoan.objects.filter(customer=name.customer).update(mydate=name.mydate,
                     payable_loan=(new_bal+amount),bal=int(amount+new_bal-amt_paid),
                      balance=int(amount+new_bal-amt_paid)) 
-
+                
+                #update account to 'Not owing any amount' if not owing any amount
                 else:
                     CustomerLoan.objects.filter(customer=name.customer).update(payment ="Not owing any amount") 
 
@@ -116,23 +131,25 @@ def dashboard(request):
 
             mydate =int(name.mydate.strftime("%s")) - int(datetime.now().strftime("%s"))
             
-            #print(mydate,'days remaining')
     return render(request, 'admin/dashboard.html', context=dict)
 
 
 
-
+#adding more categories
 @staff_member_required(login_url='/manager/admin-login')
 def add_category(request):
     form = LoanCategoryForm()
     if request.method == 'POST':
+        #input from the user
         form = LoanCategoryForm(request.POST)
+        #check data given and save
         if form.is_valid():
             form.save()
             return redirect('managerApp:dashboard')
     return render(request, 'admin/admin_add_category.html', {'form': form})
 
 
+#all users and customer details
 @staff_member_required(login_url='/manager/admin-login')
 def total_users(request):
     users = User.objects.all()
@@ -142,21 +159,25 @@ def total_users(request):
     return render(request, 'admin/customer.html', context)
 
 
+# login before removing users from the list
 @staff_member_required(login_url='/manager/admin-login')
 def user_remove(request, pk):
+    #get the id of the customer to delete
     CustomerInfo.objects.get(id=pk).delete()
     user = User.objects.get(id=pk)
+    #remove
     user.delete()
     return HttpResponseRedirect('/manager/users')
-    # return redirect('managerApp:users')
+    
 
-
+#login to get the list of loan requests
 @staff_member_required(login_url='/manager/admin-login')
 def loan_request(request):
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
+#login to see a customer's transactions
 @staff_member_required(login_url='/manager/admin-login')
 def approved_request(request, id):
     today = date.today()
@@ -199,20 +220,24 @@ def approved_request(request, id):
 
 
 
-
+#login to loans rejected and the dates
 @staff_member_required(login_url='/manager/admin-login')
 def rejected_request(request, id):
 
     today = date.today()
     status_date = today.strftime("%B %d, %Y")
     loan_obj = loanRequest.objects.get(id=id)
+
+    #assign today as the date of transactions 
     loan_obj.status_date = status_date
     loan_obj.save()
+    # update if rejected
     loanRequest.objects.filter(id=id).update(status='rejected')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
+#login to  approve loans
 @staff_member_required(login_url='/manager/admin-login')
 def approved_loan(request):
     approvedLoan = loanRequest.objects.filter(status='approved')
@@ -220,13 +245,14 @@ def approved_loan(request):
     return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})#,'profit':profit})
 
 
-
+#login to reject loan request
 @staff_member_required(login_url='/manager/admin-login')
 def rejected_loan(request):
     rejectedLoan = loanRequest.objects.filter(status='rejected')
     return render(request, 'admin/rejected_loan.html', context={'rejectedLoan': rejectedLoan})
 
 
+#list of loan transaction
 @staff_member_required(login_url='/manager/admin-login')
 def transaction_loan(request):
     transactions = loanTransaction.objects.all()
@@ -234,13 +260,15 @@ def transaction_loan(request):
 
 
 
-
-
+#login to get customer all details
 @staff_member_required(login_url='/manager/admin-login')
 def detailedCustomerInfo(request,pk):
     user =get_object_or_404(User,id=pk)
-
+    
+    # check loanreques,customerloan and loan transaction if a customer exists
     if loanRequest.objects.filter(customer=user).exists() and CustomerLoan.objects.filter(customer=user) and loanTransaction.objects.filter(customer=user).exists():
+       
+       #All detailed information of a customer
         loan_info = loanRequest.objects.filter(customer=user,status='approved')
         customer_info = CustomerLoan.objects.filter(customer=user)
         loan_transact = loanTransaction.objects.filter(customer=user)
@@ -267,7 +295,7 @@ def detailedCustomerInfo(request,pk):
 
         return render(request, 'admin/customer_loan_detail.html', context)
 
-
+    # if customer exists in loan request, customerloan , must not owe anything before making any request
     elif loanRequest.objects.filter(customer=user).exists() and CustomerLoan.objects.filter(customer=user):
         loan_info = loanRequest.objects.filter(customer=user,status='approved')
         customer_info = CustomerLoan.objects.filter(customer=user)
@@ -291,7 +319,7 @@ def getLocation(request):
     return render(request,'admin/location.html')
 
 
-
+#search for location,total amount given in that location
 @staff_member_required(login_url='/manager/admin-login')
 def searchLocation(request):
     query = request.GET.get('search')
