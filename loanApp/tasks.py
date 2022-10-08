@@ -37,8 +37,6 @@ def check_due_date():
     for name in all_customer:
         if int(datetime.now().strftime("%s")) <= int(name.mydate.strftime("%s")):
             customer = CustomerLoan.objects.filter(customer=name.customer)#,payable_loan=name.payable_loan)
-            #amount_paid = CustomerLoan.objects.filter(customer=name.customer,total_amount_paid=name.total_amount_paid)
-
             for amt in customer:
                 amount = amt.payable_loan
                 amt_paid = amt.total_amount_paid

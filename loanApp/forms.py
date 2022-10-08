@@ -23,8 +23,6 @@ class LoanTransactionForm(forms.ModelForm):
 
 
 
-
-
 class CustomerBankForm(ModelForm):
     class Meta:
         model = CustomerBank
@@ -33,7 +31,6 @@ class CustomerBankForm(ModelForm):
              'bank_name':forms.TextInput(attrs={'class':'form-control'}),
             'account_no':forms.TextInput( attrs={'class':'form-control'}),
 
-           # 'card_no':forms.TextInput(attrs={'class':'form-control'}),
             'next_of_kin':forms.TextInput(attrs={'class':'form-control'}),
            
         }

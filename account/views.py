@@ -15,6 +15,10 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 
+
+
+
+#sign up 
 def sign_up_view(request):
     error = ''
     if request.user.is_authenticated:
@@ -25,7 +29,7 @@ def sign_up_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         
-        if form.is_valid(): #and form2.is_valid():
+        if form.is_valid(): 
             user = form.save()
             user.save()         
             username = form.cleaned_data.get('username')
@@ -51,9 +55,7 @@ def sign_up_view(request):
 
 
 
-
-
-
+#login
 def login_view(request):
     form = CustomerLoginForm()
     if request.method == 'POST':
@@ -75,8 +77,6 @@ def login_view(request):
 
 
 
-
-
 @login_required()
 def logout_view(request):
     logout(request)
@@ -84,8 +84,7 @@ def logout_view(request):
 
 
 
-
-
+#update
 @login_required(login_url='/account/login-customer')
 def edit_customer(request):
 
@@ -112,7 +111,6 @@ def edit_customer(request):
 
 
 
-
 @login_required(login_url='/account/login-customer')
 def edit_password(request):
 
@@ -136,7 +134,6 @@ def edit_password(request):
 
 def customerInfo(request):
     form = CustomerInfoForm()
-    
     if request.method == "POST":
         form = CustomerInfoForm(request.POST,request.FILES)
 
@@ -151,12 +148,10 @@ def customerInfo(request):
 
             return render(request,'loanapp/customerBank.html',context)
     
-
         form=CustomerInfoForm()  
         context={'form':form}
         return render(request, 'loginApp/customerDetail.html', context)
        
-
     return redirect('loanApp:home')  
 
 

@@ -9,15 +9,10 @@ app.autodiscover_tasks()
 
 
 
-
-
 app.conf.beat_schedule ={
     'every-60 minute':{
         'task':'loanApp.tasks.check_due_date',
         'schedule':60,
-        #'args': ''
-        #'args': (16, 16)
-        #'args':('nuel4xelence@gmail.com',)
         }
 }
 

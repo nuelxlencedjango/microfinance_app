@@ -75,7 +75,6 @@ class CustomerLoan(models.Model):
     total_loan = models.PositiveIntegerField(default=0)
     payable_loan = models.PositiveIntegerField(default=0)
     date_approved =  models.DateField(auto_now=True)
-    #date_approved =  models.DateTimeField(auto_now=True)
     balance = models.PositiveIntegerField(default=0)
     payment = models.CharField(max_length=20, default='Not paid yet')
     total_amount_paid = models.PositiveIntegerField(default=0)
@@ -89,8 +88,6 @@ class CustomerLoan(models.Model):
     def save(self):
         from datetime import datetime, timedelta
         due_date = timedelta(days=30)
-
-        # only add 30 days if it's the first time the model is saved
         if not self.id:
             self.mydate = datetime.now() + due_date
             super(CustomerLoan, self).save()   
@@ -100,32 +97,7 @@ class CustomerLoan(models.Model):
         from .tasks import check_due_date
         check_due_date()         
 
-    
-    #def get_dattime(self):
-        #totalPayable = CustomerLoan.objects.filter(customer=self.customer).aggregate(
-        #Sum('payable_loan'))['payable_loan__sum']
-
-       # totalPaid = loanTransaction.objects.filter(customer=self.customer).aggregate(Sum('payment'))[
-        #'payment__sum']
         
-        #if int(datetime.now().strftime("%s")) <= int(self.mydate.strftime("%s")):
-           # if int(totalPayable) > int(totalPaid):
-               # new_bal =totalPayable - totalPaid
-               # print('new balance:',new_bal)
-
-               # new_bal =totalPayable + (new_bal *10) / 100
-               # mydate = datetime.now() + timedelta(days=1)
-
-               # CustomerLoan.objects.filter( customer=self.customer).update(mydate=mydate,payable_loan=int(new_bal),bal=int(new_bal)) 
-
-       # else:
-           
-          #  mydate = datetime.now() 
-           
-       # return 'Please on or before {} '.format(mydate)
-        
-
-
 
 class MyModel(models.Model):
     mydate = models.DateTimeField(editable=False) # editable=False to hide in admin
@@ -142,24 +114,13 @@ class MyModel(models.Model):
 
 
 
-
-
-    
-
-
-
-
 class loanTransaction(models.Model):
     customer = models.ForeignKey(User,null=True, on_delete=models.CASCADE, related_name='transaction_customer')
 
     transaction_id = models.UUIDField(default=uuid.uuid4, editable=False,null=True)
-    #transaction_id = models.CharField(max_length=36, default=uuid.uuid4,editable=True)
-
     payment = models.PositiveIntegerField(default=0)
     payment_date = models.DateField(auto_now_add=True)
     balance =models.PositiveIntegerField(default=0)
-    
-
     total_payment =models.PositiveIntegerField(default=0)
      
     def __str__(self):

@@ -65,16 +65,9 @@ def superuser_login_view(request):
 
 
 
-
-
-
-
-
 # @user_passes_test(lambda u: u.is_superuser)
 @staff_member_required(login_url='/manager/admin-login')
 def dashboard(request):
-    
-
     totalCustomer = CustomerInfo.objects.all().count(),
     requestLoan = loanRequest.objects.all().filter(status='pending').count(),
     approved = loanRequest.objects.all().filter(status='approved').count(),
@@ -94,14 +87,13 @@ def dashboard(request):
         'totalPaid': totalPaid[0],
 
     }
-    print(dict)
+  
     
     #def check_due_date():
     all_customer =CustomerLoan.objects.all()
     for name in all_customer:
         if int(datetime.now().strftime("%s")) == int(name.mydate.strftime("%s")):
             amount_payable = CustomerLoan.objects.filter(customer=name.customer)#,payable_loan=name.payable_loan)
-            #amount_paid = CustomerLoan.objects.filter(customer=name.customer,total_amount_paid=name.total_amount_paid)
 
             for amt in amount_payable:
                 amount = amt.payable_loan
@@ -124,9 +116,7 @@ def dashboard(request):
 
             mydate =int(name.mydate.strftime("%s")) - int(datetime.now().strftime("%s"))
             
-            print(mydate,'days remaining')
-
-
+            #print(mydate,'days remaining')
     return render(request, 'admin/dashboard.html', context=dict)
 
 
@@ -174,8 +164,7 @@ def approved_request(request, id):
     loan_obj = loanRequest.objects.get(id=id)
     loan_obj.status_date = status_date
     loan_obj.save()
-    #year = loan_obj.year
-
+  
     approved_customer = loanRequest.objects.get(id=id).customer
     if CustomerLoan.objects.filter(customer=approved_customer).exists():
 
@@ -190,9 +179,6 @@ def approved_request(request, id):
     
 
     else:
-
-        # request customer
-
         # CustomerLoan object create
         save_loan = CustomerLoan()
 
@@ -208,10 +194,7 @@ def approved_request(request, id):
     save_loan = CustomerLoan()
     save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.10 #*int(year) 
 
-    loanRequest.objects.filter(id=id, customer=approved_customer).update(total_payment= save_loan.payable_loan)
-    # each transaction should have different balance
-      #loanTransaction.objects.filter(id=id, customer=approved_customer).update(total_payment= save_loan.payable_loan)
-     
+    loanRequest.objects.filter(id=id, customer=approved_customer).update(total_payment= save_loan.payable_loan)  
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
 
 
@@ -225,8 +208,6 @@ def rejected_request(request, id):
     loan_obj = loanRequest.objects.get(id=id)
     loan_obj.status_date = status_date
     loan_obj.save()
-    # rejected_customer = loanRequest.objects.get(id=id).customer
-    # print(rejected_customer)
     loanRequest.objects.filter(id=id).update(status='rejected')
     loanrequest = loanRequest.objects.filter(status='pending')
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
@@ -234,7 +215,6 @@ def rejected_request(request, id):
 
 @staff_member_required(login_url='/manager/admin-login')
 def approved_loan(request):
-    # print(datetime.now())
     approvedLoan = loanRequest.objects.filter(status='approved')
   
     return render(request, 'admin/approved_loan.html', context={'approvedLoan': approvedLoan})#,'profit':profit})
@@ -307,17 +287,13 @@ def detailedCustomerInfo(request,pk):
 
         
 
-def getLocation(request):
-    #return redirect('adminManager:locations') 
+def getLocation(request): 
     return render(request,'admin/location.html')
 
 
 
 @staff_member_required(login_url='/manager/admin-login')
 def searchLocation(request):
-    
-#def search(request):
-# use try catch here
     query = request.GET.get('search')
     location = Location.objects.filter(Q(area__icontains =query))
     if location and CustomerInfo.objects.filter(location__in=location):
@@ -330,10 +306,6 @@ def searchLocation(request):
 
         total_payment=[]
         balance=[]
-
-        #loan_customers=[]
-        #loan_amount =[]
-       # expected_day_to_pay=[]
         amt_paid=[]
         #profit =[]
 
@@ -347,44 +319,20 @@ def searchLocation(request):
                 exp.append(n.payable_loan)
                 balance.append(n.balance)
                 total_payment.append(n.total_amount_paid)
-                
-                #bal.append(n.payable_loan - n.total_loan)
-            # outstanding =n.payable_loan - n.total_loan
-                #balance.append(outstanding)
-                
-                #print(n.customer)
-                #print(n.total_loan)
-                #print(n.payable_loan)
-                #print('profit:',bal)
-                #print(sum(bal))
 
             for name in loan:
-                #ny = name.customer 
-                #loan_customers.append(name.customer)
-                #am =name.amount
-                #loan_amount.append(name.amount)
-                #day =name.days
-                #expected_day_to_pay.append(name.days)
-                #py =name.total_payment
                 amt_paid.append(name.total_payment)
-                #cm =name.complete_payment
-                #pf = name.profit   
-                #profit.append(name.profit)
 
                 
-            
-        
-    
         total_amount_loan =sum(amt)
         totalPay =sum(total_payment)
         totalExpected = sum(exp)
-        #totalProfit = sum(profit)
         totalBalance = sum(balance)
 
         context ={'persons':persons,'amt':amt,'exp':exp,'balance':balance,
         'total_payment':total_payment,'location':location,
         'total_amount_loan':total_amount_loan,'totalPay':totalPay,'totalExpected':totalExpected,#'profit':profit,
-        #'totalProfit':totalProfit,
+   
         'totalExpected':totalExpected,'totalBalance':totalBalance}
 
         return render(request, 'admin/location_detail.html', context)
@@ -393,11 +341,6 @@ def searchLocation(request):
         
         
 
-
-
-
-#profile_name_search = Profile.objects.get(profile_name=usr_name)
-#user_avatar = Avatar.objects.filter(user=profile_name_search.user.pk)
 
 class SearchResultsView(ListView):
     model = Location
@@ -414,10 +357,8 @@ class SearchResultsView(ListView):
                 n =CustomerLoan.objects.filter(customer=d.customer)
                 if loanRequest.objects.filter(customer=d.customer):
                     v =loanRequest.objects.filter(customer=d.customer)
-                    print(v[0])
-        #for 
-
-        #names = CustomerLoan.objects.filter(customer=persons)
+                    #print(v[0])
+ 
 
         return v
 

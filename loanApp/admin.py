@@ -7,5 +7,4 @@ admin.site.register(loanRequest)
 admin.site.register(CustomerLoan)
 admin.site.register(loanTransaction)
 
-#admin.site.register(Bill)
 

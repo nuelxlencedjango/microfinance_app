@@ -26,8 +26,7 @@ def home(request):
     if request.user.is_authenticated:
         abb = CustomerLoan.objects.filter(customer=request.user)
         tr =loanTransaction.objects.filter(customer=request.user)
-        for bal in abb:
-            pass
+
         return render(request, 'new/general/index.html', context={'abb':abb})
       
     return render(request, 'new/general/index.html', context={'present':present,'today':today})
@@ -98,14 +97,6 @@ def LoanRequest(request):
 
 
 
-
-
-
-
-
-
-
-
 @login_required(login_url='/account/login-customer')
 def LoanPayment(request):
     form = LoanTransactionForm()
@@ -131,7 +122,6 @@ def LoanPayment(request):
 
         messages.warning(request,'Payment not successful')
     return render(request, 'loanApp/payment.html', context={'form': form})
-
 
 
 
@@ -164,8 +154,6 @@ def UserLoanHistory(request):
 @login_required(login_url='/account/login-customer')
 def UserDashboard(request):
     requestLoan = loanRequest.objects.filter(customer=request.user).count()
-    
-    #requestLoan = loanRequest.objects.filter(customer=request.user.customer_info.user).count()
     approved = loanRequest.objects.filter(customer=request.user,status='approved').count()
     rejected = loanRequest.objects.filter(customer=request.user,status='rejected').count()
     
@@ -202,7 +190,6 @@ def error_404_view(request, exception):
 
 def customerBank(request):
     form = CustomerBankForm()
-    
     if request.method == "POST":
         form = CustomerBankForm(request.POST)
 
@@ -214,7 +201,6 @@ def customerBank(request):
 
             return redirect('loanApp:loan_request')  
 
-
         form=CustomerBankForm()  
         err ="errors"
         context ={'form':form, "err":err}
@@ -222,11 +208,6 @@ def customerBank(request):
        
 
     return redirect('loanApp:home')  
-
-
-
-  
-
 
 
 
