@@ -20,10 +20,6 @@
     </div>
   </div>
 
-
-
-
-  
   
 <div class="container my-5">
 
@@ -31,6 +27,8 @@
         <div class="p-5 m-auto rounded shadow-lg col-md-4 bg-body">
             <h3 class="text-center text-success">{{user}} </h3>
             <form method="POST" class="my-5">
+
+                {% csrf_token %}
                 {% if error %}
                 <div class="my-2">
                     <div class="row">
@@ -43,7 +41,7 @@
                 </div>
                 {% endif %}
 
-                {% csrf_token %}
+              
 
 
 
