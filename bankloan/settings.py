@@ -40,7 +40,7 @@ SECRET_KEY=os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1','www.simsudresources.com','simsudresources.com','web-production-2b4c.up.railway.app/']
+ALLOWED_HOSTS = ['127.0.0.1','www.simsudresources.com','simsudresources.com','web-production-e786.up.railway.app']
 
 
 # Application definition
