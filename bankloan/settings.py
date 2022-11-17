@@ -194,9 +194,9 @@ CELERY_CACHE_BACKEND ='django-cache'
 
 
 
-if os.getcwd() == '/app':
-    SECURE_PROXY_SSL_HEADER =('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT =True
-    DEBUG = False
+#if os.getcwd() == '/app':
+    #SECURE_PROXY_SSL_HEADER =('HTTP_X_FORWARDED_PROTO', 'https')
+    #SECURE_SSL_REDIRECT =True
+   # DEBUG = False
 
 
