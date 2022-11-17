@@ -34,7 +34,7 @@
             </h3>
             <form method="POST" class="my-5">
 
-                {% csrf_token %}
+               
 
                 {% if error %}
                 <div class="my-2">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 {% endif %}
-
+                {% csrf_token %}
 
                 <div class="mb-4 form-outline">
 
