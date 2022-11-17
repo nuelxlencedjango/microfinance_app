@@ -33,12 +33,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-#SECRET_KEY=os.environ.get('SECRET_KEY')
+SECRET_KEY=os.environ.get('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-#DEBUG = os.environ.get('DEBUG')
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1','www.simsudresources.com','simsudresources.com','web-production-e786.up.railway.app']
 
@@ -101,17 +101,17 @@ WSGI_APPLICATION = 'bankloan.wsgi.application'
 
 
 
-#DATABASES = {
-  #    'default': {
-    #    'ENGINE': 'django.db.backends.postgresql',
-    #    'NAME': os.environ.get('DATABASE_NAME'),
-    #    'HOST' :os.environ.get('DATABASE_HOST'),
-    #    'PORT':os.environ.get('DATABASE_PORT'),
-    #    'USER' :os.environ.get('DATABASE_USER'),
-    #    'PASSWORD' :os.environ.get('DATABASE_PASSWORD'),
+DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'HOST' :os.environ.get('DATABASE_HOST'),
+        'PORT':os.environ.get('DATABASE_PORT'),
+        'USER' :os.environ.get('DATABASE_USER'),
+        'PASSWORD' :os.environ.get('DATABASE_PASSWORD'),
 
-   # }
-#}
+    }
+}
 
 
 # Password validation
@@ -159,11 +159,11 @@ MEDIA_URL ='/media/'
 MEDIA_ROOT =os.path.join(BASE_DIR ,'media/')
 
 
-#cloudinary.config( 
- # cloud_name=os.environ.get('CLOUD_NAME'),
- # api_key=os.environ.get('API_KEY'), 
- # api_secret=os.environ.get('API_SECRET'), 
-#)
+cloudinary.config( 
+  cloud_name=os.environ.get('CLOUD_NAME'),
+  api_key=os.environ.get('API_KEY'), 
+  api_secret=os.environ.get('API_SECRET'), 
+)
 
 
 # Default primary key field type
@@ -173,7 +173,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 
     #EMAIL_HOST = 'smtp.gmail.com'
