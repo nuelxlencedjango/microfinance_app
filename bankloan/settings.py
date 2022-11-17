@@ -192,6 +192,7 @@ CELERY_CACHE_BACKEND ='django-cache'
 #CELERY_BROKER_URL = "redis://localhost:6379"
 #CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
+CSRF_TRUSTED_ORIGINS=['https://www.simsudresources.com','https://*.127.0.0.1','https://web-production-e786.up.railway.app']
 
 
 #if os.getcwd() == '/app':
