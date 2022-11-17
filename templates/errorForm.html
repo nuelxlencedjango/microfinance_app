@@ -14,4 +14,74 @@ student lesson
 
 
 
+<div class="container">
+    {% if first %}
+    <form action="{% url 'account:student' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+
+                
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.address %}
+            <label class="form-label">Address</label>
+        </div>
+                
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.nearest_bustop %}
+            <label class="form-label">nearest_bustop</label>
+        </div>
+                
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.location %}
+            <label class="form-label">Location</label>
+        </div>
+                
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.business %}
+            <label class="form-label">business type</label>
+        </div>
+
+                
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.name %}
+            <label class="form-label">Full name</label>
+        </div>
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.dept %}
+            <label class="form-label">department</label>
+        </div>
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.age %}
+            <label class="form-label">age</label>
+        </div>
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.phone %}
+            <label class="form-label">phone</label>
+        </div>
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.state %}
+           
+        </div>
+        <div class="mb-4 form-outline">
+
+            {% render_field form1.profile_img %}
+           
+        </div>
+        <button class="submit" type="submit">Submit</button>
+    </form>
+    {% elif err %}
+    <h3>unsuccessful form</h3>
+    {% endif %}
+
+    {{ form1.errors }}
+</div>
 {% endblock %}
