@@ -46,67 +46,7 @@
         <div class="p-5 m-auto rounded shadow-lg col-md-5 bg-body">
             <h3 class="text-center text-success">Edit Bank Details</h3>
               
-                <form action="" method="POST" enctype="multipart/form-data">
-                {% if err %}
-                <h4>Some errors in your form.Please check the numbers you typed and make sure their are correct</h4>
-                {% else %}
-                 <div class="my-2">
-                    <div class="row">
-                        <div class="m-auto col">
-                            <div class="text-center alert alert-danger" role="alert">
-                                {{error}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-                {% csrf_token %}
-
-               
-                <div class="mb-4 form-outline">
-
-                    {% render_field form.bank_name|attr:'required:true' class="form-control" %}
-                    <label class="form-label">Bank Name</label>
-                </div>
-                <div class="mb-4 form-outline">
-
-                    {% render_field form.account_no|attr:'required:true' class="form-control" %}
-                    <label class="form-label">Account Number</label>
-                </div>
-                  
-               
-             
-             
-                <div class="mb-4 form-outline">
-
-                    {% render_field form.next_of_kin|attr:'required:true' class="form-control" %}
-                    <label class="form-label">Next Of Kin</label>
-                </div>
-    
-                {{ form.errors }}
-
-                {% if form.errors %}
-
-                {% for field in form %}
-                       {% for error in field.errors %}
-                              <div class="alert alert-danger">
-                                   <strong>{{ error|escape }}</strong>
-                              </div>
-                       {% endfor %}
-                {% endfor %}
-                
-          {% endif %}
-                 
-                <!-- 2 column grid layout for inline styling -->
               
-
-                <!-- Submit button -->
-                <button type="submit" class="mb-4 btn btn-primary btn-block">Submit</button>
-
-          
-         
-            </form>
         </div>
     </div>
 </div>
