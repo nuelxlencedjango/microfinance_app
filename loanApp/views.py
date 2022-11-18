@@ -160,7 +160,7 @@ def UserLoanHistory(request):
         
     except Exception as e:
 
-        messages.success(request, 'You dont have any loan histry yet.')
+        messages.success(request, 'You dont have any loan history yet.')
         return render(request, 'loanapp/user_loan_history.html')
     
     else:
