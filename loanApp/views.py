@@ -131,7 +131,7 @@ def LoanPayment(request):
             return redirect('/')
          #else send message warning
         messages.warning(request,'Payment not successful')
-    return render(request, 'loanApp/payment.html', context={'form': form})
+    return render(request, 'loanapp/payment.html', context={'form': form})
 
 
 
@@ -140,7 +140,6 @@ def LoanPayment(request):
 @login_required(login_url='/account/login-customer')
 def UserTransaction(request):
     try:
-        #if loanTransaction.objects.filter(customer=request.user).exists():
         transactions = loanTransaction.objects.filter(customer=request.user)
            
     except Exception as e:
@@ -148,14 +147,14 @@ def UserTransaction(request):
         return render(request, 'loanapp/user_transaction.html')
 
     else:
-        return render(request, 'loanapp/user_transaction.html', context={'transactions': transactions})#,"bal":bal})    
+        return render(request, 'loanapp/user_transaction.html', context={'transactions': transactions})    
 
 
 
 #user should login  to see all loan requuest and approved loan
 @login_required(login_url='/account/login-customer')
 def UserLoanHistory(request):
-    #if loanRequest.objects.filter(customer=request.user).exists():
+  
     try:
         loans = loanRequest.objects.filter(customer=request.user)
         get_info = CustomerLoan.objects.filter(customer=request.user)
@@ -168,13 +167,9 @@ def UserLoanHistory(request):
 
         context={'loans': loans,'get_info':get_info}
         return render(request, 'loanapp/user_loan_history.html', context)
-        #return render(request, "loanApp/user_loan_history.html")
+      
 
   
-
-   
-
-
 
 
 #user's dashboard.user has to log in to see 
