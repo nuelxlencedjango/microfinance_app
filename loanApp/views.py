@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 from account .forms import *
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
+from django.http import HttpResponse
 import datetime
 from datetime import datetime, timedelta
 from django.urls import reverse
@@ -160,6 +160,7 @@ def UserLoanHistory(request):
     except Exception as e:
 
         messages.success(request, 'You dont have any loan histry yet.')
+        return HttpResponse('You dont have any loan histry yet.')
 
     #loans = loanRequest.objects.filter(customer=request.user)
     #get_info = CustomerLoan.objects.filter(customer=request.user)
