@@ -156,6 +156,10 @@ def UserLoanHistory(request):
     try:
         loans = loanRequest.objects.filter(customer=request.user)
         get_info = CustomerLoan.objects.filter(customer=request.user)
+        
+        context={'loans': loans,'get_info':get_info}
+    
+        return render(request, 'loanApp/user_loan_history.html', context)
 
     except Exception as e:
 
@@ -165,9 +169,7 @@ def UserLoanHistory(request):
     #loans = loanRequest.objects.filter(customer=request.user)
     #get_info = CustomerLoan.objects.filter(customer=request.user)
 
-    context={'loans': loans,'get_info':get_info}
-    
-    return render(request, 'loanApp/user_loan_history.html', context)
+   
 
 
 

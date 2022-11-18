@@ -72,6 +72,14 @@
     <div class="my-5 users">
 
 <h4>{{ messages }}</h4>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 
         <table class="table text-center table-light table-hover table-bordered table-striped">
             <thead class="bg-light ">
