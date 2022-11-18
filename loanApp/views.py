@@ -164,7 +164,8 @@ def UserLoanHistory(request):
     except Exception as e:
 
         messages.success(request, 'You dont have any loan histry yet.')
-        return render(request, "loanApp/user_loan_history.html")
+        
+        #return render(request, "loanApp/user_loan_history.html")
 
     #loans = loanRequest.objects.filter(customer=request.user)
     #get_info = CustomerLoan.objects.filter(customer=request.user)
