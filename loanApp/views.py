@@ -139,13 +139,16 @@ def LoanPayment(request):
 #user should login  to see all transactions
 @login_required(login_url='/account/login-customer')
 def UserTransaction(request):
-    if loanTransaction.objects.filter(customer=request.user).exists():
-
+    try:
+        #if loanTransaction.objects.filter(customer=request.user).exists():
         transactions = loanTransaction.objects.filter(customer=request.user)
-        return render(request, 'loanapp/user_transaction.html', context={'transactions': transactions})#,"bal":bal})
+           
+    except Exception as e:
+        messages.warning(request,'You dont have any transaction yet')
+        return render(request, 'loanapp/user_transaction.html')
 
-    messages.warning(request,'You dont have any transaction yet')
-    return render(request, 'loanapp/user_transaction.html')
+    else:
+        return render(request, 'loanapp/user_transaction.html', context={'transactions': transactions})#,"bal":bal})    
 
 
 
@@ -157,10 +160,8 @@ def UserLoanHistory(request):
         loans = loanRequest.objects.filter(customer=request.user)
         get_info = CustomerLoan.objects.filter(customer=request.user)
 
-        
     except Exception as e:
-
-        messages.success(request, 'You dont have any loan history yet.')
+        messages.success(request, 'You dont have any loan histry yet.')
         return render(request, 'loanapp/user_loan_history.html')
     
     else:
@@ -169,8 +170,7 @@ def UserLoanHistory(request):
         return render(request, 'loanapp/user_loan_history.html', context)
         #return render(request, "loanApp/user_loan_history.html")
 
-    #loans = loanRequest.objects.filter(customer=request.user)
-    #get_info = CustomerLoan.objects.filter(customer=request.user)
+  
 
    
 
