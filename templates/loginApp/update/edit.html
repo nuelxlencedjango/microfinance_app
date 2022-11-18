@@ -27,6 +27,13 @@
 <div class="container my-5">
 
 
+    {% if messages %}
+    <ul class="messages">
+   {% for message in messages %}
+       <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+   {% endfor %}
+   </ul>
+{% endif %}
 
     <div class="row">
         <div class="p-5 m-auto my-5 rounded shadow-lg col-md-6 bg-body">
@@ -46,7 +53,6 @@
 
            
 
-
                 <!-- Email input -->
                 <div class="mb-4 form-outline">
                     {% render_field form.email|attr:'required:true' type="email" class="form-control" %}
@@ -63,7 +69,7 @@
 
                 <!-- Number input -->
                 <div class="mb-4 form-outline">
-                    {% render_field form2.phone|attr:'required:true' type="number" class="form-control" %}
+                    {% render_field form2.phone|attr:'required:true' type="text" class="form-control" %}
 
                     <label class="form-label">Phone</label>
                 </div>

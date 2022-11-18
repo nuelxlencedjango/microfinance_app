@@ -3,7 +3,7 @@ from unicodedata import name
 from urllib import request
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib import messages
 from loanApp.forms import CustomerBankForm
 from .forms import *
 from django.shortcuts import redirect
@@ -97,31 +97,33 @@ def logout_view(request):
 #update
 @login_required(login_url='/account/login-customer')
 def edit_customer(request):
+    if CustomerInfo.objects.filter(user= request.user).exists():
+        #take input from the user form
+        form = UserUpdateForm(instance=request.user)
+        form2 = CustomerInfoForm(instance=request.user.customer_info)
     
-    #take input from the user form
-    form = UserUpdateForm(instance=request.user)
-    form2 = CustomerInfoForm(instance=request.user.customer_info)
-    
-    if request.method == 'POST':
+        if request.method == 'POST':
 
-        form = UserUpdateForm(request.POST,  instance = request.user)
-        form2 = CustomerInfoForm(request.POST,request.FILES,instance=request.user.customer_info)
+            form = UserUpdateForm(request.POST,  instance = request.user)
+            form2 = CustomerInfoForm(request.POST,request.FILES,instance=request.user.customer_info)
         
-        #if form contents are valid
-        if form.is_valid() and form2.is_valid():
-            form.save()
-            form2.save()
+            #if form contents are valid
+            if form.is_valid() and form2.is_valid():
+                form.save()
+                form2.save()
         
-            return HttpResponseRedirect(reverse('loanApp:home'))
+                return HttpResponseRedirect(reverse('loanApp:home'))
         
-        #if not,show this page
+            #if not,show this page
+            context={'form': form,'form2':form2}
+            return render(request, 'loginApp/update/edit.html', context)
+
+
         context={'form': form,'form2':form2}
-        return render(request, 'loginApp/update/edit.html', context)
-
-
-    context={'form': form,'form2':form2}
-    return render(request, 'loginApp/update/edit.html',context)       
-
+        return render(request, 'loginApp/update/edit.html',context)   
+    
+    messages.warning(request,'You dont have information to update')
+    return render(request, 'loginApp/update/edit.html')
 
 
 #user must login before updating 
