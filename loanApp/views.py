@@ -152,8 +152,17 @@ def UserTransaction(request):
 #user should login  to see all loan requuest and approved loan
 @login_required(login_url='/account/login-customer')
 def UserLoanHistory(request):
-    loans = loanRequest.objects.filter(customer=request.user)
-    get_info = CustomerLoan.objects.filter(customer=request.user)
+    #if loanRequest.objects.filter(customer=request.user).exists():
+    try:
+        loans = loanRequest.objects.filter(customer=request.user)
+        get_info = CustomerLoan.objects.filter(customer=request.user)
+
+    except Exception as e:
+
+        messages.success(request, 'You dont have any loan histry yet.')
+
+    #loans = loanRequest.objects.filter(customer=request.user)
+    #get_info = CustomerLoan.objects.filter(customer=request.user)
 
     context={'loans': loans,'get_info':get_info}
     
