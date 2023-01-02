@@ -127,6 +127,8 @@ def edit_customer(request):
 
 
 
+
+
 #user must login before updating 
 @login_required(login_url='/account/login-customer')
 def edit_password(request):
