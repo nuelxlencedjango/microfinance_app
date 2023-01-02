@@ -122,8 +122,9 @@ def edit_customer(request):
         context={'form': form,'form2':form2}
         return render(request, 'loginApp/update/edit.html',context)   
     else:
+        #return redirect('/')
         messages.warning(request,'You dont have information to update')
-    return render(request, 'loginApp/update/edit.html')
+        return render(request, 'loginApp/update/error_message.html')
 
 
 

@@ -1,0 +1,35 @@
+{% extends 'new/general/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+<style>
+    .page-heading{
+        height: 30px;
+    }
+  
+  </style>
+  <div class="page-heading header-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Error Page</h1>
+          {% for message in messages %}
+          <span>  {{ message }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+{% endblock %}
+
+
