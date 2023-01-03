@@ -53,7 +53,7 @@ html{
     overflow: hidden;
     scroll-padding-top: 6rem;
     scroll-behavior: smooth;
-}*/
+}
 header{
     position: fixed;
     top: 0;
@@ -93,6 +93,18 @@ header{
  footer{
     margin-top: 70px;
  }
+ .collapse:not(.show) {
+    display: block;
+}
+@media (max-width: 450px){
+    .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    width: 100%;
+    padding-right: 5px !important;
+    padding-left: 0px !important;
+    margin-right: auto;
+    margin-left: 1px !important;
+}
+}
     </style>
 
 
@@ -107,10 +119,10 @@ header{
     <h1 class=" text-primary">Search For A Location</h1>
 </div>
 
-<div class="container-fluid p-0 "  style="align-items: center">
+<div class="container-fluid p-0  searchLoc"  style="align-items: center">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid"> 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse searchLoc" id="navbarSupportedContent">
         
           <form action="{% url 'adminManager:search_location' %}" method="GET" class="d-flex">
             
