@@ -44,7 +44,7 @@ def check_due_date():
                 if int(amount) > int(amt_paid):
                     new_bal =amount - amt_paid
 
-                    new_bal = (new_bal *10) / 100
+                    new_bal = (new_bal *15) / 100
                     mydate = datetime.now() + timedelta(days=1)
 
                     CustomerLoan.objects.filter(customer=name.customer).update(mydate=mydate,payable_loan=(new_bal+amount),bal=int(amount+new_bal-amt_paid), balance=int(amount+new_bal-amt_paid)) 

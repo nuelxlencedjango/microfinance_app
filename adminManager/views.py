@@ -114,8 +114,8 @@ def dashboard(request):
                 if int(amount) > int(amt_paid):
                     new_bal =amount - amt_paid
 
-                   # add 10% to outstanding
-                    new_bal = (new_bal *10) / 100
+                   # add 15% to outstanding
+                    new_bal = (new_bal *15) / 100
                     mydate = datetime.now() + timedelta(days=1)
                     
                     #update account
@@ -195,7 +195,7 @@ def approved_request(request, id):
 
         # update balance
         CustomerLoan.objects.filter(customer=approved_customer).update(total_loan=int(PreviousAmount)+int(loan_obj.amount))
-        CustomerLoan.objects.filter( customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.10)# *int(year))
+        CustomerLoan.objects.filter( customer=approved_customer).update(payable_loan=int(PreviousPayable)+int(loan_obj.amount)+int(loan_obj.amount)*0.15)# *int(year))
        
     
 
@@ -205,7 +205,7 @@ def approved_request(request, id):
 
         save_loan.customer = approved_customer
         save_loan.total_loan = int(loan_obj.amount)
-        save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.10 #*int(year)
+        save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.15 #*int(year)
         save_loan.save()
        
        
@@ -213,7 +213,7 @@ def approved_request(request, id):
     loanrequest = loanRequest.objects.filter(status='pending')
 
     save_loan = CustomerLoan()
-    save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.10 #*int(year) 
+    save_loan.payable_loan = int(loan_obj.amount)+int(loan_obj.amount)*0.15 #*int(year) 
 
     loanRequest.objects.filter(id=id, customer=approved_customer).update(total_payment= save_loan.payable_loan)  
     return render(request, 'admin/request_user.html', context={'loanrequest': loanrequest})
